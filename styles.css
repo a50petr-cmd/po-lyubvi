@@ -826,11 +826,11 @@ h3 {
   margin-top: 8px;
 }
 
-.manicure-page table {
+.service-page table {
   width: 100%;
 }
 
-.manicure-page .price-group td {
+.service-page .price-group td {
   width: 1%;
   text-align: right;
   padding-right: 0;
