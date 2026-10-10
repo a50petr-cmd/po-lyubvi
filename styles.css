@@ -179,47 +179,148 @@ button.button {
   background: #000;
 }
 
-.hero {
+.hero,
+.home-split {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(240px, 0.85fr);
-  gap: 24px 40px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 28px 40px;
+  align-items: start;
+}
+
+.hero {
+  padding: 32px 0 0;
   align-items: center;
-  padding: 32px 0 48px;
+}
+
+.home-color .home-split {
+  align-items: start;
+}
+
+.hero-photo,
+.color-stage {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  display: block;
 }
 
 .hero-photo {
-  width: 100%;
   height: auto;
-  aspect-ratio: 4 / 3;
   object-fit: cover;
   object-position: 80% 40%;
-  display: block;
 }
 
 .hero-copy {
   min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .hero-note {
   grid-column: 1 / -1;
-  max-width: 62ch;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 28px 40px;
+  align-items: start;
+  max-width: none;
+  padding: 32px 0 48px;
+  border-top: 1px solid var(--line);
 }
 
-.home-color .swatch {
-  width: 120px;
-  height: 120px;
+.hero-note p {
+  max-width: none;
 }
 
-.color-preview {
+.yandex-place {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 4px 18px;
+  align-items: center;
+  margin-top: 28px;
+  padding: 14px 16px;
+  border: 1px solid var(--ink);
+  color: inherit;
+  text-decoration: none;
+}
+
+.yandex-place-score {
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: clamp(2.6rem, 4vw, 3.6rem);
+  line-height: 0.9;
+  font-variant-numeric: tabular-nums;
+}
+
+.yandex-place-award {
+  display: inline;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.45rem;
+  line-height: 1.1;
+}
+
+.yandex-place-year {
+  display: inline;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.yandex-place-year::before {
+  content: " ";
+}
+
+.yandex-place-meta {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.yandex-place:hover {
+  background: var(--sheet);
+}
+
+.color-stage {
+  background: var(--line);
+  border: 1px solid rgba(28, 28, 28, 0.18);
+}
+
+.color-copy h3 {
+  font-size: clamp(2rem, 3vw, 2.8rem);
+}
+
+.color-copy .nails {
+  margin: 4px 0 16px;
+}
+
+.color-copy .button {
+  margin-top: 8px;
+}
+
+.section-head {
   display: flex;
-  align-items: flex-end;
-  gap: 18px;
-  margin: 8px 0 16px;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin-bottom: 28px;
 }
 
-.color-preview .swatch,
-.color-preview .nails {
-  margin: 0;
+.section-head .section-title {
+  margin-bottom: 0;
+}
+
+.home-news .section-title,
+.home-visit .section-title {
+  margin-bottom: 16px;
+}
+
+.home-news .more-links {
+  margin-top: 16px;
+}
+
+.section-head .more-links {
+  margin-top: 0;
 }
 
 .home-works-grid {
@@ -240,10 +341,6 @@ button.button {
   height: 100%;
   object-fit: cover;
   display: block;
-}
-
-.home-works .more-links {
-  margin-top: 16px;
 }
 
 .wordmark {
@@ -277,7 +374,7 @@ button.button {
 }
 
 .hero-note p {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   color: var(--ink);
 }
 
@@ -290,7 +387,8 @@ button.button {
 }
 
 .hero-note .button {
-  margin-top: 16px;
+  margin-top: 0;
+  justify-self: start;
 }
 
 .salon-kind {
@@ -300,13 +398,21 @@ button.button {
 }
 
 .home-color,
-.home-news,
 .home-works,
 .services,
 .photos-tease,
-.home-visit {
-  padding: 56px 0;
+.home-tail {
+  padding: 48px 0;
   border-top: 1px solid var(--line);
+}
+
+.home-news p,
+.home-visit p {
+  max-width: none;
+}
+
+.home-visit .button {
+  margin-top: 16px;
 }
 
 .news-item {
@@ -349,9 +455,16 @@ button.button {
 
 .service-main a,
 .service-rest a {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   color: inherit;
   text-decoration: none;
+}
+
+.service-main p,
+.service-rest p {
+  max-width: none;
 }
 
 .service-main a h3,
@@ -396,10 +509,6 @@ button.button {
   color: var(--ink);
   text-decoration: underline;
   text-underline-offset: 0.22em;
-}
-
-.home-visit .button {
-  margin-top: 16px;
 }
 
 .button.quiet {
@@ -460,8 +569,65 @@ button.button {
   color: var(--ink);
 }
 
-.photo-dialog::backdrop {
+.photo-dialog::backdrop,
+.request-dialog::backdrop {
   background: rgba(28, 28, 28, 0.72);
+}
+
+.request-dialog {
+  width: min(440px, calc(100vw - 24px));
+  max-height: calc(100vh - 24px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 20px 20px 24px;
+  border: 1px solid var(--ink);
+  background: var(--sheet);
+  color: var(--ink);
+}
+
+.request-dialog-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.request-dialog-bar h2 {
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+}
+
+.phone-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--ink);
+  background: var(--sheet);
+}
+
+.phone-box:focus-within {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.phone-code {
+  flex: none;
+  padding: 12px 0 12px 14px;
+  color: var(--ink);
+  font: 1rem/1.4 var(--sans);
+  font-variant-numeric: tabular-nums;
+}
+
+.phone-box input {
+  border: 0;
+  padding-left: 8px;
+  background: transparent;
+  font-variant-numeric: tabular-nums;
+}
+
+.phone-box input:focus,
+.phone-box input:focus-visible {
+  outline: none;
 }
 
 .photo-dialog-bar {
@@ -572,17 +738,18 @@ button.button {
 .service-rest,
 .facts {
   display: grid;
-  gap: 36px 56px;
+  gap: 28px 40px;
 }
 
 .service-main {
   grid-template-columns: 1fr 1fr;
+  align-items: stretch;
 }
 
 .service-rest {
   grid-template-columns: repeat(3, 1fr);
-  margin-top: 64px;
-  align-items: start;
+  margin-top: 40px;
+  align-items: stretch;
 }
 
 h2,
@@ -814,6 +981,10 @@ th {
   align-items: start;
 }
 
+.contacts-grid .button {
+  margin-top: 16px;
+}
+
 .field {
   margin-bottom: 14px;
 }
@@ -997,6 +1168,8 @@ address p + p {
 
 @media (max-width: 860px) {
   .hero,
+  .home-split,
+  .hero-note,
   .service-main,
   .play,
   .contacts-grid {
@@ -1019,11 +1192,12 @@ address p + p {
 
   .hero {
     align-items: start;
-    padding-bottom: 40px;
+    padding-bottom: 0;
   }
 
   .hero-note {
     grid-column: auto;
+    padding-bottom: 40px;
   }
 }
 
@@ -1075,22 +1249,16 @@ address p + p {
   }
 
   .home-color,
-  .home-news,
   .home-works,
   .services,
   .photos-tease,
-  .home-visit,
+  .home-tail,
   .page {
     padding: 40px 0;
   }
 
   .home-works-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .home-works-grid a:last-child {
-    grid-column: 1 / -1;
-    aspect-ratio: 4 / 3;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .gallery-grid,

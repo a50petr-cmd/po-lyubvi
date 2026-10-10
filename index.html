@@ -50,26 +50,47 @@
             <p class="salon-kind">салон красоты</p>
             <p class="slogan">Маленькая роскошь быть собой</p>
             <p class="place">Электросталь</p>
+            <a
+              class="yandex-place"
+              id="yandex-place"
+              href="https://yandex.ru/maps/org/po_lyubvi/241721947105/reviews/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="yandex-place-score" id="yandex-score">5,0</span>
+              <span class="yandex-place-copy">
+                <span class="yandex-place-award" id="yandex-award">Хорошее место</span>
+                <span class="yandex-place-year" id="yandex-year">2026</span>
+                <span class="yandex-place-meta" id="yandex-meta">Яндекс Карты · 91 оценка · 71 отзыв</span>
+              </span>
+            </a>
           </div>
           <div class="hero-note">
-            <p class="offer-title" id="offer-title">Первый визит — минус 15% на чек</p>
-            <p id="offer-text">Для нового клиента, на все услуги этого визита. Процент один: чем больше процедур сразу, тем больше сумма скидки.</p>
-              <a class="button" href="contacts.html#booking" data-book data-wish="Первый визит, хочу записаться со скидкой 15%.">Записаться со скидкой</a>
+            <div>
+              <p class="offer-title" id="offer-title">Первый визит — минус 15% на чек</p>
+              <p id="offer-text">Для нового клиента, на все услуги этого визита. Процент один: чем больше процедур сразу, тем больше сумма скидки.</p>
+            </div>
+            <a class="button" href="contacts.html#booking" data-book data-wish="Первый визит, хочу записаться со скидкой 15%.">Записаться со скидкой</a>
           </div>
         </section>
         <section class="home-color" aria-labelledby="color-title">
           <h2 id="color-title" class="section-title">Цвет месяца</h2>
-          <p class="color-kicker" id="month-kicker">Октябрь</p>
-          <h3 id="month-name">Тихий мох</h3>
-          <div class="color-preview">
-            <div class="swatch" id="month-swatch"></div>
-            <div class="nails" id="month-nails" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="home-split">
+            <div class="color-stage" id="month-swatch"></div>
+            <div class="color-copy">
+              <p class="color-kicker" id="month-kicker">Октябрь</p>
+              <h3 id="month-name">Тихий мох</h3>
+              <div class="nails" id="month-nails" aria-hidden="true"><i></i><i></i><i></i></div>
+              <p id="month-text">Денежный маникюр октября. На руках цвет спокойный: его же показываем выше.</p>
+              <button class="button" type="button" id="book-month">Записать этот цвет</button>
+            </div>
           </div>
-          <p id="month-text">Денежный маникюр октября. На руках цвет спокойный: его же показываем выше.</p>
-          <button class="button" type="button" id="book-month">Записать этот цвет</button>
         </section>
         <section class="home-works" aria-labelledby="works-title">
-          <h2 id="works-title" class="section-title">Наши работы</h2>
+          <div class="section-head">
+            <h2 id="works-title" class="section-title">Наши работы</h2>
+            <p class="more-links"><a href="photos.html">Все работы</a></p>
+          </div>
           <div class="home-works-grid">
             <a href="photos.html">
               <img src="photos/007.webp" alt="Ярко-розовый маникюр" width="768" height="1024" />
@@ -81,7 +102,6 @@
               <img src="photos/005.webp" alt="Светло-розовый маникюр" width="768" height="1024" />
             </a>
           </div>
-          <p class="more-links"><a href="photos.html">Все работы</a></p>
         </section>
         <section class="services" id="services" aria-labelledby="services-title">
           <h2 id="services-title" class="section-title">Услуги</h2>
@@ -115,17 +135,19 @@
             <a href="consult.html">Консультация косметолога</a>
           </nav>
         </section>
-        <section class="home-news" aria-labelledby="news-title">
-          <h2 id="news-title" class="section-title">Новости</h2>
-          <div id="latest-news"></div>
-          <p class="more-links"><a href="news.html">Все новости</a></p>
-        </section>
-        <section class="home-visit" aria-labelledby="visit-title">
-          <h2 id="visit-title" class="section-title">Салон</h2>
-          <p id="home-address">Электросталь, проспект Ленина, 08А. Ежедневно, 9:00–21:00.</p>
-          <p><a id="home-phone" href="tel:+79295551887">+7 (929) 555-18-87</a></p>
-          <a class="button" data-route href="https://yandex.ru/maps/?rtext=~55.811174,38.430234&amp;rtt=auto" target="_blank" rel="noopener noreferrer">Построить маршрут</a>
-        </section>
+        <div class="home-tail home-split">
+          <section class="home-news" aria-labelledby="news-title">
+            <h2 id="news-title" class="section-title">Новости</h2>
+            <div id="latest-news"></div>
+            <p class="more-links"><a href="news.html">Все новости</a></p>
+          </section>
+          <section class="home-visit" aria-labelledby="visit-title">
+            <h2 id="visit-title" class="section-title">Салон</h2>
+            <p id="home-address">Электросталь, проспект Ленина, 08А. Ежедневно, 9:00–21:00.</p>
+            <p><a id="home-phone" href="tel:+79295551887">+7 (929) 555-18-87</a></p>
+            <a class="button" data-route href="https://yandex.ru/maps/?rtext=~55.811174,38.430234&amp;rtt=auto" target="_blank" rel="noopener noreferrer">Построить маршрут</a>
+          </section>
+        </div>
       </main>
       <footer class="footer">
         <p>По любви, Электросталь</p>

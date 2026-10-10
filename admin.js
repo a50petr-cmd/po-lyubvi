@@ -34,6 +34,18 @@ const fields = {
   "note-rating": (data, value) => {
     data.notes.rating = value;
   },
+  "note-rating-score": (data, value) => {
+    data.notes.ratingScore = value;
+  },
+  "note-rating-count": (data, value) => {
+    data.notes.ratingCount = value;
+  },
+  "note-award": (data, value) => {
+    data.notes.award = value;
+  },
+  "note-award-year": (data, value) => {
+    data.notes.awardYear = value;
+  },
   "note-reviews": (data, value) => {
     data.notes.reviewsLabel = value;
   },
@@ -125,6 +137,10 @@ function fillForm() {
   fill("salon-site", salon.site);
   fill("salon-site-label", salon.siteLabel);
   fill("note-rating", notes.rating);
+  fill("note-rating-score", notes.ratingScore);
+  fill("note-rating-count", notes.ratingCount);
+  fill("note-award", notes.award);
+  fill("note-award-year", notes.awardYear);
   fill("note-reviews", notes.reviewsLabel);
   fill("note-way", notes.way);
   fill("note-place", notes.place);

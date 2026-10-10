@@ -108,6 +108,16 @@ function applySalon(content) {
     if (salon.reviews) reviews.href = salon.reviews;
   }
 
+  const yandex = document.querySelector("#yandex-place");
+  if (yandex) {
+    setText("#yandex-score", notes.ratingScore);
+    setText("#yandex-award", notes.award);
+    setText("#yandex-year", notes.awardYear);
+    const meta = ["Яндекс Карты", notes.ratingCount, notes.reviewsLabel].filter(Boolean).join(" · ");
+    setText("#yandex-meta", meta);
+    if (salon.reviews) yandex.href = salon.reviews;
+  }
+
   setText("#way-line", notes.way);
   setText("#place-notes", notes.place);
   setText("#route-note", notes.route);
@@ -179,7 +189,7 @@ function mountBooking(content) {
   if (note) {
     note.hidden = !id;
     if (id) {
-      note.textContent = "Кнопка «Записаться» открывает онлайн-запись. Форма ниже — чтобы написать администратору.";
+      note.textContent = "Кнопка «Записаться» открывает онлайн-запись. Заявку администратору можно отправить во всплывающем окне.";
     }
   }
 }
@@ -242,7 +252,7 @@ function goWish(text) {
     window.open(book.href, "_blank", "noopener,noreferrer");
     return;
   }
-  location.href = `contacts.html?wish=${encodeURIComponent(text)}`;
+  openRequest(text);
 }
 
 function renderMonth(content) {
@@ -415,11 +425,65 @@ function renderPhotos(content) {
   });
 }
 
-function prefillWish() {
+function nationalDigits(value) {
+  let digits = String(value || "").replace(/\D/g, "");
+  if (digits.length >= 11 && (digits[0] === "7" || digits[0] === "8")) {
+    digits = digits.slice(1);
+  }
+  return digits.slice(0, 10);
+}
+
+function formatNational(digits) {
+  const a = digits.slice(0, 3);
+  const b = digits.slice(3, 6);
+  const c = digits.slice(6, 8);
+  const d = digits.slice(8, 10);
+  if (!digits) return "";
+  if (digits.length <= 3) return `(${a}`;
+  if (digits.length <= 6) return `(${a}) ${b}`;
+  if (digits.length <= 8) return `(${a}) ${b}-${c}`;
+  return `(${a}) ${b}-${c}-${d}`;
+}
+
+function fullPhone(national) {
+  const formatted = formatNational(national);
+  return formatted ? `+7 ${formatted}` : "";
+}
+
+function bindPhone(input) {
+  if (!input) return;
+  input.addEventListener("input", () => {
+    const digits = nationalDigits(input.value);
+    input.value = formatNational(digits);
+  });
+  input.addEventListener("keydown", (event) => {
+    if (event.key !== "Backspace" || input.selectionStart !== 0 || input.selectionEnd !== 0) return;
+    event.preventDefault();
+  });
+}
+
+function wishFromNode(node) {
+  if (node.dataset.wish) return node.dataset.wish;
+  try {
+    return new URL(node.href, location.href).searchParams.get("wish") || "";
+  } catch {
+    return "";
+  }
+}
+
+function openRequest(wish) {
+  const dialog = document.querySelector("#request-dialog");
+  const form = document.querySelector("#booking");
   const field = document.querySelector("#wish");
-  if (!field) return;
-  const text = new URLSearchParams(location.search).get("wish");
-  if (text && !field.value.trim()) field.value = text.slice(0, 1000);
+  const phone = document.querySelector("#client-phone");
+  const status = document.querySelector("#form-status");
+  if (!dialog) return;
+  form?.reset();
+  if (phone) phone.value = "";
+  if (status) status.textContent = "";
+  if (typeof wish === "string" && field) field.value = wish.slice(0, 1000);
+  if (!dialog.open) dialog.showModal();
+  document.querySelector("#client-name")?.focus();
 }
 
 function fallbackBooking(content, payload, status) {
@@ -440,11 +504,75 @@ function fallbackBooking(content, payload, status) {
     : "Сейчас заявка с сайта не сохранилась. Запишитесь по телефону салона.";
 }
 
-function bindForm(content) {
+function mountRequest(content) {
+  if (!document.querySelector("#request-dialog")) {
+    const dialog = document.createElement("dialog");
+    dialog.className = "request-dialog";
+    dialog.id = "request-dialog";
+    dialog.setAttribute("aria-labelledby", "request-title");
+    dialog.innerHTML = `
+      <div class="request-dialog-bar">
+        <h2 id="request-title">Заявка</h2>
+        <button class="button quiet small" type="button" id="request-close">Закрыть</button>
+      </div>
+      <form id="booking" novalidate>
+        <div class="field">
+          <label for="client-name">Имя</label>
+          <input id="client-name" name="name" type="text" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label for="client-phone">Телефон</label>
+          <div class="phone-box">
+            <span class="phone-code" aria-hidden="true">+7</span>
+            <input id="client-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="(926) 923-29-29" maxlength="16" required />
+          </div>
+        </div>
+        <div class="field">
+          <label for="wish">Что записать</label>
+          <textarea id="wish" name="wish" rows="3"></textarea>
+        </div>
+        <div class="field consent">
+          <input id="consent" name="consent" type="checkbox" value="yes" required />
+          <label for="consent">Соглашаюсь на обработку персональных данных и принимаю <a href="privacy.html">политику конфиденциальности</a>.</label>
+        </div>
+        <button class="button" type="submit">Отправить заявку</button>
+        <p class="form-status" id="form-status" role="status"></p>
+      </form>
+    `;
+    document.body.append(dialog);
+  }
+
+  const dialog = document.querySelector("#request-dialog");
   const form = document.querySelector("#booking");
   const consent = document.querySelector("#consent");
   const status = document.querySelector("#form-status");
-  if (!form || !consent || !status) return;
+  const phone = document.querySelector("#client-phone");
+  if (!dialog || !form || !consent || !status || !phone) return;
+
+  bindPhone(phone);
+  document.querySelector("#request-close")?.addEventListener("click", () => dialog.close());
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+
+  document.querySelectorAll("[data-request], [data-extra-wish]").forEach((node) => {
+    node.addEventListener("click", (event) => {
+      event.preventDefault();
+      openRequest(wishFromNode(node));
+    });
+  });
+
+  if (!bookingHref(content)) {
+    document.querySelectorAll("[data-book]").forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        openRequest(wishFromNode(link));
+      });
+    });
+  }
+
+  const wish = new URLSearchParams(location.search).get("wish");
+  if (wish || location.hash === "#booking") openRequest(wish || "");
 
   function syncConsent() {
     consent.setCustomValidity(
@@ -461,9 +589,9 @@ function bindForm(content) {
     event.preventDefault();
     syncConsent();
     const name = document.querySelector("#client-name");
-    const phone = document.querySelector("#client-phone");
-    const digits = phone.value.replace(/\D/g, "");
-    phone.setCustomValidity(digits.length >= 10 ? "" : "Введите телефон целиком, чтобы администратор мог перезвонить.");
+    const digits = nationalDigits(phone.value);
+    phone.value = formatNational(digits);
+    phone.setCustomValidity(digits.length === 10 ? "" : "Введите телефон целиком, чтобы администратор мог перезвонить.");
     name.setCustomValidity(name.value.trim().length >= 2 ? "" : "Напишите, как к вам обращаться.");
     if (!form.checkValidity()) {
       form.reportValidity();
@@ -471,7 +599,7 @@ function bindForm(content) {
     }
     const payload = {
       name: name.value.trim(),
-      phone: phone.value.trim(),
+      phone: fullPhone(digits),
       wish: document.querySelector("#wish").value.trim(),
       consent: true,
     };
@@ -491,6 +619,7 @@ function bindForm(content) {
         return;
       }
       form.reset();
+      phone.value = "";
       status.textContent = content.salon?.phone
         ? `Заявка у администратора. Если удобнее, позвоните ${content.salon.phone}.`
         : "Заявка у администратора.";
@@ -513,13 +642,12 @@ async function boot() {
   applySalon(content);
   mountTelegram(content);
   mountBooking(content);
+  mountRequest(content);
   renderPrices(content);
   renderMonth(content);
   renderSigns();
   renderPhotos(content);
   renderNews(content);
-  prefillWish();
-  bindForm(content);
 }
 
 boot();
