@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 248 40" role="img" aria-labelledby="logoTitle">
+  <title id="logoTitle">> ;N128</title>
+  <svg x="0" y="0" width="40" height="40" viewBox="0 0 32 32" overflow="hidden">
+    <rect width="32" height="32" fill="#1c1c1c"/>
+    <path fill="#f7f6f3" d="M5 5H24.5V19.2H26.4V22.6H19.2V10.2H10.2V22.6H3.4V19.2H5Z"/>
+    <path fill="#e6e2da" d="M23 32H32V23L23 32Z"/>
+    <path fill="none" stroke="#cfc8bc" stroke-width="1" d="M23.45 31.55 31.55 23.45"/>
+  </svg>
+  <text x="52" y="28" fill="#1c1c1c" font-family="Oranienbaum, 'Times New Roman', serif" font-size="28">> ;N128</text>
+</svg>

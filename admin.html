@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Админка — По любви</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#e6e2da" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Oranienbaum&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#content">К содержанию</a>
+    <div class="wrap">
+      <header class="header">
+        <a class="brand" href="index.html">
+          <img class="brand-mark" src="favicon.svg" alt="" width="40" height="40" />
+          <span class="brand-word">По любви</span>
+        </a>
+        <a href="index.html">На сайт</a>
+      </header>
+      <main class="page" id="content">
+        <h1>Админка</h1>
+        <form id="login-form">
+          <div class="field">
+            <label for="password">Пароль</label>
+            <input id="password" type="password" autocomplete="current-password" required />
+          </div>
+          <button class="button" type="submit">Войти</button>
+          <p class="form-status" id="login-status" role="status"></p>
+        </form>
+
+        <div id="desk" hidden>
+          <div class="admin-bar">
+            <button class="button" id="save" type="button">Сохранить</button>
+            <button class="button quiet" id="logout" type="button">Выйти</button>
+            <p class="form-status" id="save-status" role="status"></p>
+          </div>
+
+          <section class="admin-block">
+            <h2>Онлайн-запись YCLIENTS</h2>
+            <p class="admin-help">
+              Вставьте ссылку из кабинета YCLIENTS, например https://n123456.yclients.com, или только число.
+              Его берут так: Онлайн-запись, форма, ссылка или код кнопки.
+              Пока поле пустое, «Записаться» открывает заявку на этом сайте.
+              После сохранения та же кнопка открывает виджет YCLIENTS.
+            </p>
+            <div class="field">
+              <label for="yclients-id">Ссылка или номер</label>
+              <input id="yclients-id" type="text" inputmode="text" autocomplete="off" />
+            </div>
+          </section>
+
+          <section class="admin-block">
+            <h2>Контакты</h2>
+            <div class="field"><label for="salon-city">Город</label><input id="salon-city" type="text" /></div>
+            <div class="field"><label for="salon-street">Адрес</label><input id="salon-street" type="text" /></div>
+            <div class="field"><label for="salon-phone">Телефон</label><input id="salon-phone" type="tel" /></div>
+            <div class="field"><label for="salon-hours">Часы</label><input id="salon-hours" type="text" /></div>
+            <div class="field"><label for="salon-email">Почта для запасного письма</label><input id="salon-email" type="email" /></div>
+            <p class="hint">Если сервер заявок недоступен, форма откроет письмо на этот адрес.</p>
+            <div class="field"><label for="salon-telegram">Telegram, без @</label><input id="salon-telegram" type="text" /></div>
+            <div class="field"><label for="salon-whatsapp">Ссылка WhatsApp</label><input id="salon-whatsapp" type="url" /></div>
+            <div class="field"><label for="salon-site">Сайт или taplink</label><input id="salon-site" type="url" /></div>
+            <div class="field"><label for="salon-site-label">Подпись ссылки</label><input id="salon-site-label" type="text" /></div>
+            <div class="field"><label for="note-rating">Строка рейтинга</label><input id="note-rating" type="text" /></div>
+            <div class="field"><label for="note-reviews">Подпись отзывов</label><input id="note-reviews" type="text" /></div>
+            <div class="field"><label for="note-way">Как дойти</label><textarea id="note-way" rows="2"></textarea></div>
+            <div class="field"><label for="note-place">Что есть в салоне</label><textarea id="note-place" rows="3"></textarea></div>
+            <div class="field"><label for="note-route">Пояснение к маршруту</label><textarea id="note-route" rows="2"></textarea></div>
+          </section>
+
+          <section class="admin-block">
+            <h2>Тексты</h2>
+            <div class="field"><label for="offer-title">Заголовок акции</label><input id="offer-title" type="text" /></div>
+            <div class="field"><label for="offer-text">Текст акции</label><textarea id="offer-text" rows="3"></textarea></div>
+            <div class="field"><label for="standards">Стандарты на главной</label><textarea id="standards" rows="4"></textarea></div>
+            <div class="field"><label for="price-note">Пояснение к цене</label><textarea id="price-note" rows="4"></textarea></div>
+            <div class="field"><label for="price-source">Откуда цифры</label><textarea id="price-source" rows="3"></textarea></div>
+            <div class="field"><label for="consult-title">Заголовок консультации</label><input id="consult-title" type="text" /></div>
+            <div class="field"><label for="consult-text">Текст консультации</label><textarea id="consult-text" rows="5"></textarea></div>
+            <div id="page-texts"></div>
+          </section>
+
+          <section class="admin-block">
+            <h2>Цвет месяца</h2>
+            <div class="field"><label for="month-label">Месяц</label><input id="month-label" type="text" /></div>
+            <div class="field"><label for="month-color-name">Название цвета</label><input id="month-color-name" type="text" /></div>
+            <div class="field"><label for="month-hex">Цвет</label><input id="month-hex" type="color" /></div>
+            <div class="field"><label for="month-text">Фраза</label><textarea id="month-text" rows="3"></textarea></div>
+          </section>
+
+          <section class="admin-block">
+            <h2>Прайс</h2>
+            <p class="admin-help">Вилка — это категория мастера: нижняя цена у младшего, верхняя у эксперта. Не придумывайте третью колонку.</p>
+            <div id="price-editor"></div>
+            <button class="button quiet" id="add-group" type="button">Добавить раздел</button>
+          </section>
+
+          <section class="admin-block">
+            <h2>Фото</h2>
+            <p class="admin-help">Скрытое фото пропадёт с сайта после «Сохранить». Удаление стирает файл сразу.</p>
+            <div class="field">
+              <label for="photo-file">Добавить фото</label>
+              <input id="photo-file" type="file" accept="image/jpeg,image/png,image/webp,image/gif" />
+            </div>
+            <p class="form-status" id="upload-status" role="status"></p>
+            <div class="photo-admin" id="photo-editor"></div>
+          </section>
+
+          <div class="admin-bar">
+            <button class="button" id="save-bottom" type="button">Сохранить</button>
+            <p class="form-status" id="save-status-bottom" role="status"></p>
+          </div>
+
+          <section class="admin-block">
+            <h2>Заявки с сайта</h2>
+            <button class="button quiet" id="reload-requests" type="button">Обновить список</button>
+            <div id="request-list"></div>
+          </section>
+
+          <section class="admin-block">
+            <h2>Пароль</h2>
+            <form id="password-form">
+              <div class="field"><label for="current-password">Текущий</label><input id="current-password" type="password" autocomplete="current-password" /></div>
+              <div class="field"><label for="next-password">Новый, от 8 знаков</label><input id="next-password" type="password" autocomplete="new-password" /></div>
+              <div class="field"><label for="repeat-password">Новый ещё раз</label><input id="repeat-password" type="password" autocomplete="new-password" /></div>
+              <button class="button" type="submit">Сменить пароль</button>
+              <p class="form-status" id="password-status" role="status"></p>
+            </form>
+          </section>
+        </div>
+      </main>
+    </div>
+    <script src="admin.js"></script>
+  </body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Цвет месяца — По любви</title>
+    <meta name="description" content="Цвет маникюра месяца и спокойные оттенки по знаку в салоне «По любви»." />
+    <meta name="theme-color" content="#e6e2da" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Oranienbaum&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#content">К содержанию</a>
+    <div class="wrap">
+      <header class="header">
+        <a class="brand" href="index.html">
+          <img class="brand-mark" src="favicon.svg" alt="" width="40" height="40" />
+          <span class="brand-word">По любви</span>
+        </a>
+        <nav class="nav" aria-label="Разделы">
+          <a href="manikyur.html">Маникюр</a>
+          <a href="pedikyur.html">Педикюр</a>
+          <a href="vzglyad.html">Взгляд</a>
+          <a href="estetika.html">Эстетика</a>
+          <a href="massazh.html">Массаж</a>
+          <a href="price.html">Прайс</a>
+          <a href="photos.html">Фото</a>
+          <a href="contacts.html">Контакты</a>
+        </nav>
+        <a class="button" href="contacts.html#booking" data-book>Записаться</a>
+      </header>
+      <noscript><p class="section-lead">Включите JavaScript: так подгружаются прайс, фото и онлайн-запись.</p></noscript>
+      <main class="page color" id="content">
+        <h1>Цвет месяца</h1>
+        <div class="play">
+          <article>
+            <p class="color-kicker" id="month-kicker">Октябрь</p>
+            <h3 id="month-name">Тихий мох</h3>
+            <div class="swatch" id="month-swatch"></div>
+            <div class="nails" id="month-nails" aria-hidden="true"><i></i><i></i><i></i></div>
+            <p id="month-text">Денежный маникюр октября. На руках цвет спокойный: его же показываем выше.</p>
+            <button class="button" type="button" id="book-month">Записать этот цвет</button>
+          </article>
+          <article>
+            <h3>Цвет по знаку</h3>
+            <p>Не гороскоп, а повод выбрать оттенок.</p>
+            <div class="signs" id="signs" role="group" aria-label="Знак зодиака"></div>
+            <div class="sign-result" id="sign-result" hidden>
+              <div class="sign-swatch" id="sign-swatch"></div>
+              <p id="sign-copy"></p>
+              <button class="button" type="button" id="book-sign">Записать этот цвет</button>
+            </div>
+          </article>
+        </div>
+      </main>
+      <footer class="footer">
+        <p>По любви, Электросталь</p>
+        <nav class="footer-links" aria-label="Ещё">
+          <a href="color.html">Цвет месяца</a>
+          <a href="consult.html">Консультация</a>
+          <a href="privacy.html">Политика конфиденциальности</a>
+          <a href="admin.html">Вход для салона</a>
+        </nav>
+      </footer>
+    </div>
+    <script src="site.js"></script>
+  </body>
+</html>
