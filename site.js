@@ -33,6 +33,11 @@ function telHref(phone) {
   return `tel:${String(phone).replace(/[^\d+]/g, "")}`;
 }
 
+function telegramHref(handle) {
+  const name = String(handle || "").replace(/^@/, "").trim();
+  return name ? `https://t.me/${encodeURIComponent(name)}` : "";
+}
+
 function applyTexts(content) {
   setText("#offer-title", content.offer?.title);
   setText("#offer-text", content.offer?.text);
@@ -90,7 +95,8 @@ function applySalon(content) {
     if (phoneLine) phoneLine.hidden = false;
   }
 
-  linkLine("#telegram-line", "#telegram-link", salon.telegram ? `https://t.me/${salon.telegram.replace(/^@/, "")}` : "", salon.telegram ? `Telegram @${salon.telegram.replace(/^@/, "")}` : "");
+  const tg = telegramHref(salon.telegram);
+  linkLine("#telegram-line", "#telegram-link", tg, tg ? `Telegram @${salon.telegram.replace(/^@/, "")}` : "");
   linkLine("#wa-line", "#wa-link", salon.whatsapp || "", salon.whatsapp ? "WhatsApp" : "");
   linkLine("#site-line", "#site-link", salon.site || "", salon.siteLabel || salon.site || "");
 
@@ -114,6 +120,20 @@ function applySalon(content) {
   }
 }
 
+function mountTelegram(content) {
+  if (document.querySelector(".tg-float")) return;
+  const href = telegramHref(content.salon?.telegram);
+  if (!href) return;
+  const link = document.createElement("a");
+  link.className = "tg-float";
+  link.href = href;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.setAttribute("aria-label", "Написать в Telegram");
+  link.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M2.4 11.6 21 3.4c.7-.3 1.4.4 1.1 1.1l-3.4 14.2c-.2.9-1.3 1.2-2 .6l-4.2-3.6-2.3 2.2c-.4.4-1 .2-1.1-.4l.3-3.8 8-6.4-9.9 5.5-3.7-1.5c-.8-.3-.8-1.4.1-1.7Z"/></svg>';
+  document.body.append(link);
+}
+
 function linkLine(lineSelector, linkSelector, href, label) {
   const line = document.querySelector(lineSelector);
   const link = document.querySelector(linkSelector);
@@ -127,36 +147,40 @@ function linkLine(lineSelector, linkSelector, href, label) {
   link.textContent = label;
 }
 
+function bookingHref(content) {
+  const id = yclientsId(content.yclientsId);
+  return id ? `https://n${id}.yclients.ru` : "";
+}
+
 function mountBooking(content) {
   const id = yclientsId(content.yclientsId);
+  const href = bookingHref(content);
   document.querySelectorAll("[data-book]").forEach((link) => {
-    if (id) {
-      link.href = `https://n${id}.yclients.com`;
-      link.classList.add("ms_booking");
+    if (href) {
+      link.href = href;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
     } else if (link.dataset.wish) {
       link.href = `contacts.html?wish=${encodeURIComponent(link.dataset.wish)}`;
-      link.classList.remove("ms_booking");
+      link.removeAttribute("target");
+      link.removeAttribute("rel");
     } else {
       link.href = "contacts.html#booking";
-      link.classList.remove("ms_booking");
+      link.removeAttribute("target");
+      link.removeAttribute("rel");
     }
   });
   document.querySelectorAll("[data-extra-wish]").forEach((link) => {
     link.hidden = !id;
   });
+  const onlineWrap = document.querySelector("#online-book-wrap");
+  if (onlineWrap) onlineWrap.hidden = !id;
   const note = document.querySelector("#booking-note");
   if (note) {
     note.hidden = !id;
     if (id) {
       note.textContent = "Кнопка «Записаться» открывает онлайн-запись. Форма ниже — чтобы написать администратору.";
     }
-  }
-  if (id && !document.querySelector("script[data-yclients]")) {
-    const script = document.createElement("script");
-    script.src = `https://w${id}.yclients.com/widgetJS`;
-    script.charset = "UTF-8";
-    script.dataset.yclients = id;
-    document.body.append(script);
   }
 }
 
@@ -213,6 +237,11 @@ function paint(hex, nodes) {
 }
 
 function goWish(text) {
+  const book = document.querySelector("a[data-book]");
+  if (book && /yclients\.(ru|com)$/i.test(book.hostname)) {
+    window.open(book.href, "_blank", "noopener,noreferrer");
+    return;
+  }
   location.href = `contacts.html?wish=${encodeURIComponent(text)}`;
 }
 
@@ -482,6 +511,7 @@ async function boot() {
   }
   applyTexts(content);
   applySalon(content);
+  mountTelegram(content);
   mountBooking(content);
   renderPrices(content);
   renderMonth(content);
