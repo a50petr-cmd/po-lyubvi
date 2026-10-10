@@ -221,6 +221,24 @@ def validate_content(data) -> str | None:
                 clean.append({"name": name, "price": price})
         group["items"] = clean
 
+    news = data.get("news") or []
+    if not isinstance(news, list) or len(news) > 40:
+        return "Слишком много новостей"
+    clean_news = []
+    for item in news:
+        if not isinstance(item, dict):
+            continue
+        title = clip(item.get("title"), 160)
+        text = clip(item.get("text"), 2000)
+        if not title or not text:
+            continue
+        clean_news.append({
+            "date": clip(item.get("date"), 40),
+            "title": title,
+            "text": text,
+        })
+    data["news"] = clean_news
+
     data["yclientsId"] = normalize_yclients(data.get("yclientsId", ""))
     photos = []
     for item in data.get("photos") or []:

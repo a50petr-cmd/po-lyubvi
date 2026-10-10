@@ -18,6 +18,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 6.5rem;
 }
 
 body {
@@ -71,7 +72,7 @@ a {
   position: absolute;
   left: 16px;
   top: -48px;
-  z-index: 2;
+  z-index: 6;
   padding: 10px 14px;
   background: var(--ink);
   color: var(--sheet);
@@ -88,12 +89,25 @@ a {
 }
 
 .header {
+  position: sticky;
+  top: 0;
+  z-index: 4;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 16px 28px;
-  padding: 22px 0 8px;
+  padding: 14px 0 12px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+
+h1,
+h2,
+h3,
+#booking,
+#content {
+  scroll-margin-top: 6.5rem;
 }
 
 .brand {
@@ -161,17 +175,54 @@ button.button {
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
-  gap: 40px 56px;
-  align-items: end;
-  padding: 28px 0 80px;
+  grid-template-columns: minmax(0, 0.92fr) minmax(280px, 1.08fr);
+  gap: 28px 40px;
+  align-items: stretch;
+  padding: 28px 0 48px;
+}
+
+.hero-photo {
+  width: 100%;
+  height: 100%;
+  min-height: 460px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.home-color .swatch {
+  width: min(100%, 420px);
+}
+
+.home-works-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+
+.home-works-grid a {
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.home-works-grid img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.home-works .more-links {
+  margin-top: 16px;
 }
 
 .wordmark {
   margin: 0;
   color: var(--ink);
   font-family: var(--serif);
-  font-size: clamp(3.5rem, 12vw, 8.75rem);
+  font-size: clamp(3.2rem, 7vw, 6.4rem);
   font-weight: 400;
   line-height: 0.86;
   letter-spacing: -0.035em;
@@ -186,6 +237,10 @@ button.button {
   color: var(--ink);
   font-size: 1.35rem;
   line-height: 1.35;
+}
+
+.salon-kind + .slogan {
+  margin-top: 6px;
 }
 
 .place {
@@ -210,6 +265,15 @@ button.button {
   margin-top: 16px;
 }
 
+.salon-kind {
+  margin-top: 14px;
+  color: var(--ink);
+  font-size: 1.25rem;
+}
+
+.home-color,
+.home-news,
+.home-works,
 .services,
 .photos-tease,
 .home-visit {
@@ -217,10 +281,32 @@ button.button {
   border-top: 1px solid var(--line);
 }
 
+.news-item {
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+}
+
+.news-item:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.news-date {
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.news-edit {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
 .page {
   padding: 36px 0 72px;
-  margin-top: 18px;
-  border-top: 1px solid var(--line);
 }
 
 .page > h1 {
@@ -230,6 +316,7 @@ button.button {
   font-weight: 400;
   font-size: clamp(2.6rem, 6vw, 4.6rem);
   line-height: 0.95;
+  text-wrap: balance;
 }
 
 .service-main a,
@@ -544,8 +631,34 @@ h3 {
   margin-top: 8px;
 }
 
+.manicure-page table {
+  width: 100%;
+}
+
+.manicure-page .price-group td {
+  width: 1%;
+  text-align: right;
+  padding-right: 0;
+}
+
+.work-photos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4px;
+  margin: 0 0 28px;
+}
+
+.work-photos img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+  background: var(--line);
+}
+
 .price-group td {
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 #rating-line a,
@@ -757,6 +870,7 @@ textarea {
   font-weight: 400;
   line-height: 1.1;
   color: var(--ink);
+  text-wrap: balance;
 }
 
 .care-lead {
@@ -862,6 +976,18 @@ address p + p {
     width: min(var(--wrap), calc(100% - 32px));
   }
 
+  html {
+    scroll-padding-top: 12rem;
+  }
+
+  h1,
+  h2,
+  h3,
+  #booking,
+  #content {
+    scroll-margin-top: 12rem;
+  }
+
   .header {
     flex-wrap: wrap;
     align-items: center;
@@ -891,7 +1017,8 @@ address p + p {
   }
 
   .gallery-grid,
-  .photo-admin {
+  .photo-admin,
+  .work-photos {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 

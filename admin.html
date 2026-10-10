@@ -90,6 +90,19 @@
           </section>
 
           <section class="admin-block">
+            <h2>Новости</h2>
+            <p class="admin-help">Новая запись встанет первой. На главной видна только она. Остальные — на странице «Новости». Чтобы опубликовать, нажмите «Сохранить».</p>
+            <form id="news-form">
+              <div class="field"><label for="news-date">Дата</label><input id="news-date" type="text" placeholder="10 октября" /></div>
+              <div class="field"><label for="news-title">Заголовок</label><input id="news-title" type="text" required /></div>
+              <div class="field"><label for="news-text">Текст</label><textarea id="news-text" rows="5" required></textarea></div>
+              <button class="button" type="submit">Добавить новость</button>
+              <p class="form-status" id="news-status" role="status"></p>
+            </form>
+            <div id="news-editor"></div>
+          </section>
+
+          <section class="admin-block">
             <h2>Цвет месяца</h2>
             <div class="field"><label for="month-label">Месяц</label><input id="month-label" type="text" /></div>
             <div class="field"><label for="month-color-name">Название цвета</label><input id="month-color-name" type="text" /></div>

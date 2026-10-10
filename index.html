@@ -28,24 +28,60 @@
           <a href="estetika.html">Эстетика</a>
           <a href="massazh.html">Массаж</a>
           <a href="price.html">Прайс</a>
-          <a href="photos.html">Фото</a>
+          <a href="photos.html">Наши работы</a>
+          <a href="news.html">Новости</a>
           <a href="contacts.html">Контакты</a>
         </nav>
         <a class="button" href="contacts.html#booking" data-book>Записаться</a>
       </header>
-      <noscript><p class="section-lead">Включите JavaScript: так подгружаются прайс, фото и онлайн-запись.</p></noscript>
+      <noscript><p class="section-lead">Если цены или фото не открылись, разрешите скрипты в браузере и обновите страницу.</p></noscript>
       <main id="content">
         <section class="hero" id="top">
+          <img
+            class="hero-photo"
+            src="photos/001.webp"
+            alt="Тёмное покрытие на коротких ногтях"
+            width="900"
+            height="1120"
+            fetchpriority="high"
+          />
           <div>
             <h1 class="wordmark"><span>По</span><span>любви</span></h1>
+            <p class="salon-kind">салон красоты</p>
             <p class="slogan">Маленькая роскошь быть собой</p>
             <p class="place">Электросталь</p>
+            <div class="hero-note">
+              <p class="offer-title" id="offer-title">Первый визит — минус 15% на чек</p>
+              <p id="offer-text">Для нового клиента, на все услуги этого визита. Процент один: чем больше процедур сразу, тем больше сумма скидки.</p>
+              <a class="button" href="contacts.html?wish=%D0%9F%D0%B5%D1%80%D0%B2%D1%8B%D0%B9%20%D0%B2%D0%B8%D0%B7%D0%B8%D1%82%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D1%81%D0%BE%20%D1%81%D0%BA%D0%B8%D0%B4%D0%BA%D0%BE%D0%B9%2015%25.">Записаться со скидкой</a>
+            </div>
           </div>
-          <div class="hero-note">
-            <p class="offer-title" id="offer-title">Первый визит — минус 15% на чек</p>
-            <p id="offer-text">Для нового клиента, на все услуги этого визита. Процент один: чем больше процедур сразу, тем больше сумма скидки.</p>
-            <a class="button" href="contacts.html?wish=%D0%9F%D0%B5%D1%80%D0%B2%D1%8B%D0%B9%20%D0%B2%D0%B8%D0%B7%D0%B8%D1%82%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D1%81%D0%BE%20%D1%81%D0%BA%D0%B8%D0%B4%D0%BA%D0%BE%D0%B9%2015%25.">Записаться со скидкой</a>
+        </section>
+        <section class="home-color" aria-labelledby="color-title">
+          <h2 id="color-title" class="section-title">Цвет месяца</h2>
+          <p class="color-kicker" id="month-kicker">Октябрь</p>
+          <h3 id="month-name">Тихий мох</h3>
+          <div class="swatch" id="month-swatch"></div>
+          <div class="nails" id="month-nails" aria-hidden="true"><i></i><i></i><i></i></div>
+          <p id="month-text">Денежный маникюр октября. На руках цвет спокойный: его же показываем выше.</p>
+          <button class="button" type="button" id="book-month">Записать этот цвет</button>
+        </section>
+        <section class="home-news" aria-labelledby="news-title">
+          <h2 id="news-title" class="section-title">Новости</h2>
+          <div id="latest-news"></div>
+          <p class="more-links"><a href="news.html">Все новости</a></p>
+        </section>
+        <section class="home-works" aria-labelledby="works-title">
+          <h2 id="works-title" class="section-title">Наши работы</h2>
+          <div class="home-works-grid">
+            <a href="photos.html">
+              <img src="photos/013.webp" alt="Красный маникюр" width="800" height="800" />
+            </a>
+            <a href="photos.html">
+              <img src="photos/016.webp" alt="Зелёный дизайн ногтей" width="800" height="800" />
+            </a>
           </div>
+          <p class="more-links"><a href="photos.html">Все работы</a></p>
         </section>
         <section class="services" id="services" aria-labelledby="services-title">
           <h2 id="services-title" class="section-title">Услуги</h2>
@@ -78,13 +114,8 @@
             <a href="price.html">Прайс</a>
             <a href="consult.html">Консультация косметолога</a>
             <a href="color.html">Цвет месяца</a>
-            <a href="photos.html">Фото</a>
+            <a href="photos.html">Наши работы</a>
           </nav>
-        </section>
-        <section class="photos-tease" id="home-photos" hidden>
-          <h2 class="section-title">Фото</h2>
-          <div class="photo-strip" id="photo-strip"></div>
-          <p class="more-links"><a href="photos.html">Все фотографии</a></p>
         </section>
         <section class="home-visit" aria-labelledby="visit-title">
           <h2 id="visit-title" class="section-title">Салон</h2>

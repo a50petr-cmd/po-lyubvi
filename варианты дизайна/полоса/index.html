@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Вариант «Чёрная полоса» — По любви</title>
+    <meta name="theme-color" content="#1c1c1c" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Oranienbaum&display=swap" rel="stylesheet" />
+    <style>
+      :root { --paper:#e6e2da; --sheet:#f7f6f3; --ink:#1c1c1c; --muted:#5c5853; }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--paper); color: #3e3b37; font-family: Manrope, "Segoe UI", sans-serif; font-size: 1.05rem; line-height: 1.5; }
+      a { color: inherit; }
+      :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+      .ink :focus-visible { outline-color: var(--sheet); }
+      .spread { display: grid; grid-template-columns: minmax(240px, 34%) 1fr; min-height: 100vh; }
+      .ink {
+        background: var(--ink); color: var(--sheet);
+        padding: 28px 28px 32px;
+        display: flex; flex-direction: column; justify-content: space-between; gap: 32px;
+        position: sticky; top: 0; height: 100vh;
+      }
+      .ink a { color: var(--sheet); }
+      .mark { font-family: Oranienbaum, serif; font-size: clamp(3rem, 5vw, 4.6rem); line-height: 0.88; letter-spacing: -0.03em; }
+      .offer { font-family: Oranienbaum, serif; font-size: clamp(2rem, 3vw, 2.8rem); line-height: 1.05; margin: 0; }
+      .ink p { margin: 10px 0 0; max-width: 26ch; }
+      .book {
+        display: inline-flex; align-items: center; min-height: 48px; padding: 0 18px;
+        background: var(--sheet); color: var(--ink); text-decoration: none; margin-top: 18px;
+      }
+      .sheet { padding: 28px 32px 40px; }
+      .top { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+      h1 { margin: 0 0 8px; color: var(--ink); font-family: Oranienbaum, serif; font-weight: 400; font-size: clamp(2rem, 4vw, 3rem); line-height: 1; }
+      .photo { width: 100%; max-height: 52vh; object-fit: cover; display: block; }
+      ul { list-style: none; margin: 22px 0 0; padding: 0; }
+      li { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid #cfc8bc; }
+      li b { color: var(--ink); font-weight: 600; }
+      .num { font-variant-numeric: tabular-nums; color: var(--ink); }
+      address { font-style: normal; margin-top: 22px; color: var(--muted); }
+      @media (max-width: 860px) {
+        .spread { grid-template-columns: 1fr; }
+        .ink { position: static; height: auto; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="spread">
+      <aside class="ink">
+        <div>
+          <div class="mark">По<br />любви</div>
+          <p>Маленькая роскошь быть собой</p>
+        </div>
+        <div>
+          <p class="offer">Минус 15% на первый чек</p>
+          <p>Для нового клиента, на все услуги этого визита.</p>
+          <a class="book" href="../../contacts.html#booking">Записаться</a>
+        </div>
+      </aside>
+      <main class="sheet">
+        <div class="top">
+          <h1>Салон в Электростали</h1>
+          <nav aria-label="Макет">
+            <a href="../index.html">Все варианты</a>
+          </nav>
+        </div>
+        <img class="photo" src="../../photos/008.webp" alt="Педикюр тёмным лаком, крупный план" width="1200" height="900" />
+        <ul>
+          <li><b>Маникюр с гель-лаком</b><span class="num">1 900–2 600 ₽</span></li>
+          <li><b>Смарт-педикюр с гель-лаком</b><span class="num">2 400–3 000 ₽</span></li>
+          <li><span>Нижняя цена — младший мастер, верхняя — эксперт. Услуга и качество одни.</span></li>
+        </ul>
+        <address>
+          Проспект Ленина, 08А<br />
+          Ежедневно, 9:00–21:00<br />
+          <a href="tel:+79295551887">+7 (929) 555-18-87</a>
+        </address>
+      </main>
+    </div>
+  </body>
+</html>

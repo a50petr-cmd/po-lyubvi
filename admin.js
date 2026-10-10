@@ -143,6 +143,7 @@ function fillForm() {
   renderPageTexts();
   renderPriceEditor();
   renderPhotoEditor();
+  renderNewsEditor();
 }
 
 function renderPageTexts() {
@@ -276,11 +277,61 @@ function readPages() {
   });
 }
 
+function readNews() {
+  const items = [];
+  document.querySelectorAll("#news-editor .news-edit").forEach((box) => {
+    const title = box.querySelector(".news-title").value.trim();
+    const text = box.querySelector(".news-text").value.trim();
+    if (!title || !text) return;
+    items.push({
+      date: box.querySelector(".news-date").value.trim(),
+      title,
+      text,
+    });
+  });
+  content.news = items;
+}
+
+function renderNewsEditor() {
+  const root = document.querySelector("#news-editor");
+  if (!root) return;
+  root.replaceChildren();
+  (content.news || []).forEach((item) => {
+    const box = document.createElement("article");
+    box.className = "news-edit";
+    const date = document.createElement("input");
+    date.className = "news-date";
+    date.type = "text";
+    date.value = item.date || "";
+    date.setAttribute("aria-label", "Дата");
+    const title = document.createElement("input");
+    title.className = "news-title";
+    title.type = "text";
+    title.value = item.title || "";
+    title.setAttribute("aria-label", "Заголовок");
+    const text = document.createElement("textarea");
+    text.className = "news-text";
+    text.rows = 4;
+    text.value = item.text || "";
+    text.setAttribute("aria-label", "Текст");
+    const remove = document.createElement("button");
+    remove.className = "button quiet small";
+    remove.type = "button";
+    remove.textContent = "Убрать из списка";
+    remove.addEventListener("click", () => {
+      box.remove();
+    });
+    box.append(date, title, text, remove);
+    root.append(box);
+  });
+}
+
 function readForm() {
   Object.entries(fields).forEach(([id, apply]) => apply(content, val(id)));
   readPages();
   readPrices();
   readHidden();
+  readNews();
 }
 
 function readHidden() {
@@ -411,6 +462,21 @@ async function enter() {
   fillForm();
   await loadRequests();
 }
+
+document.querySelector("#news-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  readNews();
+  const title = val("news-title");
+  const text = document.querySelector("#news-text").value.trim();
+  if (title.length < 2 || text.length < 2) {
+    status("#news-status", "Нужны заголовок и текст.");
+    return;
+  }
+  content.news = [{ date: val("news-date"), title, text }, ...(content.news || [])];
+  renderNewsEditor();
+  document.querySelector("#news-form").reset();
+  status("#news-status", "Новость первая в списке. Нажмите «Сохранить», чтобы она вышла на сайт.");
+});
 
 document.querySelector("#login-form").addEventListener("submit", async (event) => {
   event.preventDefault();

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Варианты дизайна — По любви</title>
+    <meta name="theme-color" content="#e6e2da" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Oranienbaum&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --paper: #e6e2da;
+        --ink: #1c1c1c;
+        --muted: #5c5853;
+        --line: #cfc8bc;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: Manrope, "Segoe UI", sans-serif;
+        font-size: 1.125rem;
+        line-height: 1.55;
+      }
+      main {
+        width: min(760px, calc(100% - 40px));
+        margin: 48px auto 72px;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-family: Oranienbaum, "Times New Roman", serif;
+        font-weight: 400;
+        font-size: clamp(2.8rem, 7vw, 4.6rem);
+        line-height: 0.95;
+        text-wrap: balance;
+      }
+      p { max-width: 62ch; }
+      ol { margin: 32px 0 0; padding: 0; list-style: none; }
+      li { border-top: 1px solid var(--line); }
+      a.row {
+        display: grid;
+        grid-template-columns: 4.5rem 1fr;
+        gap: 8px 20px;
+        padding: 22px 0;
+        color: inherit;
+        text-decoration: none;
+      }
+      a.row:hover strong { text-decoration: underline; text-underline-offset: 0.18em; }
+      a.row:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+      .num {
+        font-family: Oranienbaum, serif;
+        font-size: 1.8rem;
+      }
+      strong { display: block; font-weight: 600; }
+      span { color: var(--muted); }
+      .back { color: var(--ink); }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Три варианта первой страницы</h1>
+      <p>Текущий сайт не меняется. Здесь только макеты: тот же салон, те же цвета бумаги и чернил, другая сборка экрана.</p>
+      <ol>
+        <li>
+          <a class="row" href="лента/index.html">
+            <span class="num">1</span>
+            <span><strong>Лента</strong><span>Фотография на всю ширину, под ней услуги одной строкой.</span></span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="полоса/index.html">
+            <span class="num">2</span>
+            <span><strong>Чёрная полоса</strong><span>Имя и скидка на чёрном поле слева, запись справа.</span></span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="цвет/index.html">
+            <span class="num">3</span>
+            <span><strong>Цвет месяца</strong><span>Октябрьский «Тихий мох» занимает экран, адрес остаётся внизу.</span></span>
+          </a>
+        </li>
+      </ol>
+      <p><a class="back" href="../index.html">Вернуться к текущему сайту</a></p>
+    </main>
+  </body>
+</html>

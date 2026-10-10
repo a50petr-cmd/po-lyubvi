@@ -38,7 +38,12 @@ function applyTexts(content) {
   setText("#offer-text", content.offer?.text);
   setText("#standards", content.standards);
   setText("#price-note", content.priceNote);
-  setText("#price-source", content.priceSource);
+  const source = document.querySelector("#price-source");
+  if (source) {
+    const sourceText = String(content.priceSource || "").trim();
+    source.textContent = sourceText;
+    source.hidden = !sourceText;
+  }
   setText("#consult-title", content.consult?.title);
   setText("#consult-text", content.consult?.text);
 
@@ -143,7 +148,7 @@ function mountBooking(content) {
   if (note) {
     note.hidden = !id;
     if (id) {
-      note.textContent = "Кнопка «Записаться» открывает онлайн-запись YCLIENTS. Форма ниже остаётся для сообщения администратору.";
+      note.textContent = "Кнопка «Записаться» открывает онлайн-запись. Форма ниже — чтобы написать администратору.";
     }
   }
   if (id && !document.querySelector("script[data-yclients]")) {
@@ -257,6 +262,48 @@ function visiblePhotos(content) {
   return (content.photos || []).filter((src) => typeof src === "string" && src.startsWith("photos/") && !hidden.has(src));
 }
 
+function newsArticle(item) {
+  const article = document.createElement("article");
+  article.className = "news-item";
+  if (item.date) {
+    const date = document.createElement("p");
+    date.className = "news-date";
+    date.textContent = item.date;
+    article.append(date);
+  }
+  const title = document.createElement("h3");
+  title.textContent = item.title || "";
+  const text = document.createElement("p");
+  text.textContent = item.text || "";
+  article.append(title, text);
+  return article;
+}
+
+function renderNews(content) {
+  const items = Array.isArray(content.news) ? content.news.filter((item) => item && item.title && item.text) : [];
+  const latest = document.querySelector("#latest-news");
+  if (latest) {
+    latest.replaceChildren();
+    if (!items.length) {
+      const empty = document.createElement("p");
+      empty.textContent = "Новостей пока нет.";
+      latest.append(empty);
+    } else {
+      latest.append(newsArticle(items[0]));
+    }
+  }
+  const list = document.querySelector("#news-list");
+  if (!list) return;
+  list.replaceChildren();
+  if (!items.length) {
+    const empty = document.createElement("p");
+    empty.textContent = "Новостей пока нет.";
+    list.append(empty);
+    return;
+  }
+  items.forEach((item) => list.append(newsArticle(item)));
+}
+
 function renderPhotos(content) {
   const items = visiblePhotos(content);
   const strip = document.querySelector("#photo-strip");
@@ -287,7 +334,7 @@ function renderPhotos(content) {
   const lead = document.querySelector("#photo-lead");
   if (lead) {
     lead.textContent = items.length
-      ? `Фотографии салона с карточки на Яндекс Картах. Всего ${items.length}.`
+      ? `Работы салона. ${items.length} фото.`
       : "Фотографий пока нет.";
   }
   let index = 0;
@@ -440,6 +487,7 @@ async function boot() {
   renderMonth(content);
   renderSigns();
   renderPhotos(content);
+  renderNews(content);
   prefillWish();
   bindForm(content);
 }

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Новости — По любви</title>
+    <meta name="description" content="Новости салона красоты «По любви» в Электростали." />
+    <meta name="theme-color" content="#e6e2da" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Oranienbaum&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#content">К содержанию</a>
+    <div class="wrap">
+      <header class="header">
+        <a class="brand" href="index.html">
+          <img class="brand-mark" src="favicon.svg" alt="" width="40" height="40" />
+          <span class="brand-word">По любви</span>
+        </a>
+        <nav class="nav" aria-label="Разделы">
+          <a href="manikyur.html">Маникюр</a>
+          <a href="pedikyur.html">Педикюр</a>
+          <a href="vzglyad.html">Взгляд</a>
+          <a href="estetika.html">Эстетика</a>
+          <a href="massazh.html">Массаж</a>
+          <a href="price.html">Прайс</a>
+          <a href="photos.html">Наши работы</a>
+          <a href="news.html" aria-current="page">Новости</a>
+          <a href="contacts.html">Контакты</a>
+        </nav>
+        <a class="button" href="contacts.html#booking" data-book>Записаться</a>
+      </header>
+      <noscript><p class="section-lead">Если новости не открылись, разрешите скрипты в браузере и обновите страницу.</p></noscript>
+      <main class="page" id="content">
+        <h1>Новости</h1>
+        <p class="section-lead">Публикации салона. Сначала самая свежая.</p>
+        <div id="news-list"></div>
+      </main>
+      <footer class="footer">
+        <p>По любви, Электросталь</p>
+        <nav class="footer-links" aria-label="Ещё">
+          <a href="color.html">Цвет месяца</a>
+          <a href="consult.html">Консультация</a>
+          <a href="privacy.html">Политика конфиденциальности</a>
+          <a href="admin.html">Вход для салона</a>
+        </nav>
+      </footer>
+    </div>
+    <script src="site.js"></script>
+  </body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Вариант «Цвет месяца» — По любви</title>
+    <meta name="theme-color" content="#6B705C" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Oranienbaum&display=swap" rel="stylesheet" />
+    <style>
+      :root { --paper:#e6e2da; --sheet:#f7f6f3; --ink:#1c1c1c; --moss:#6B705C; --muted:#5c5853; }
+      * { box-sizing: border-box; }
+      body { margin: 0; min-height: 100vh; background: var(--paper); color: var(--ink); font-family: Manrope, "Segoe UI", sans-serif; }
+      a { color: inherit; }
+      :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+      .field :focus-visible { outline-color: var(--sheet); }
+      .stage {
+        min-height: 100vh;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+      }
+      .quiet {
+        display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+        padding: 16px 22px; font-size: 0.98rem;
+      }
+      .field {
+        background: var(--moss);
+        color: var(--sheet);
+        padding: 48px 28px 40px;
+        display: grid;
+        align-content: end;
+        min-height: 62vh;
+      }
+      .kicker { margin: 0; letter-spacing: 0; }
+      h1 {
+        margin: 8px 0 0;
+        font-family: Oranienbaum, serif;
+        font-weight: 400;
+        font-size: clamp(4rem, 12vw, 8rem);
+        line-height: 0.86;
+        text-wrap: balance;
+      }
+      .nails { display: flex; gap: 10px; margin-top: 28px; }
+      .nails i {
+        display: block; width: 28px; height: 46px;
+        border: 1px solid rgba(247,246,243,0.7);
+        border-radius: 16px 16px 10px 10px;
+        background: #5d6250;
+      }
+      .note { max-width: 36ch; margin: 18px 0 0; }
+      .book {
+        justify-self: start;
+        display: inline-flex; align-items: center; min-height: 48px; margin-top: 22px; padding: 0 18px;
+        background: var(--sheet); color: var(--ink); text-decoration: none;
+      }
+      .foot {
+        display: flex; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap;
+        padding: 16px 22px 22px; color: #3e3b37;
+      }
+      .foot a { text-underline-offset: 0.2em; }
+    </style>
+  </head>
+  <body>
+    <div class="stage">
+      <header class="quiet">
+        <span>По любви</span>
+        <nav aria-label="Макет">
+          <a href="../index.html">Все варианты</a>
+          <a href="../../index.html">Текущий сайт</a>
+        </nav>
+      </header>
+      <section class="field">
+        <p class="kicker">Октябрь</p>
+        <h1>Тихий мох</h1>
+        <div class="nails" aria-hidden="true"><i></i><i></i><i></i></div>
+        <p class="note">Денежный маникюр этого месяца. На руках цвет спокойный. Первый визит — минус 15% на весь чек.</p>
+        <a class="book" href="../../contacts.html#booking">Записать этот цвет</a>
+      </section>
+      <footer class="foot">
+        <span>Электросталь, проспект Ленина, 08А. Ежедневно, 9:00–21:00.</span>
+        <a href="tel:+79295551887">+7 (929) 555-18-87</a>
+      </footer>
+    </div>
+  </body>
+</html>
