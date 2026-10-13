@@ -194,6 +194,125 @@ function mountBooking(content) {
   }
 }
 
+const HOME_SERVICE_FILTERS = [
+  { id: "all", label: "Все услуги" },
+  { id: "nails", label: "Ногти" },
+  { id: "gaze", label: "Брови и ресницы" },
+  { id: "cosmetology", label: "Косметология" },
+  { id: "massage", label: "Массаж" },
+];
+
+const HOME_GROUP_FILTER = {
+  manicure: "nails",
+  pedicure: "nails",
+  gaze: "gaze",
+  face: "cosmetology",
+  peels: "cosmetology",
+  cleansing: "cosmetology",
+  hardware: "cosmetology",
+  wax: "cosmetology",
+  massage: "massage",
+};
+
+function servicePageForGroup(id) {
+  const map = {
+    manicure: "manikyur.html",
+    pedicure: "pedikyur.html",
+    gaze: "vzglyad.html",
+    massage: "massazh.html",
+  };
+  if (map[id]) return map[id];
+  if (["face", "peels", "cleansing", "hardware", "wax"].includes(id)) return "estetika.html";
+  return "contacts.html";
+}
+
+function renderHomeServices(content) {
+  const root = document.querySelector(".service-catalog");
+  if (!root) return;
+  const filters = root.querySelector(".service-catalog-filters");
+  const groupsRoot = root.querySelector(".service-catalog-groups");
+  if (!filters || !groupsRoot) return;
+
+  let activeFilter = "all";
+  const priceGroups = content.priceGroups || [];
+
+  function paintFilters() {
+    filters.replaceChildren();
+    HOME_SERVICE_FILTERS.forEach((filter) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "service-filter";
+      button.textContent = filter.label;
+      button.setAttribute("aria-pressed", filter.id === activeFilter ? "true" : "false");
+      button.addEventListener("click", () => {
+        activeFilter = filter.id;
+        paintFilters();
+        paintGroups();
+      });
+      filters.append(button);
+    });
+  }
+
+  function paintGroups() {
+    groupsRoot.replaceChildren();
+    priceGroups.forEach((group) => {
+      const tag = HOME_GROUP_FILTER[group.id];
+      if (!tag) return;
+      if (activeFilter !== "all" && activeFilter !== tag) return;
+
+      const details = document.createElement("details");
+      details.className = "service-catalog-group";
+
+      const summary = document.createElement("summary");
+      summary.className = "service-pill";
+      summary.textContent = group.title;
+      details.append(summary);
+
+      if (group.note) {
+        const note = document.createElement("p");
+        note.className = "service-catalog-note";
+        note.textContent = group.note;
+        details.append(note);
+      }
+
+      const list = document.createElement("div");
+      list.className = "service-price-rows";
+      (group.items || []).forEach((item) => {
+        const row = document.createElement("article");
+        row.className = "service-price-row";
+        const name = document.createElement("h3");
+        name.className = "service-price-name";
+        name.textContent = item.name;
+        const price = document.createElement("p");
+        price.className = "service-price-value";
+        price.textContent = item.price;
+        const book = document.createElement("a");
+        book.className = "service-price-book button quiet small";
+        book.textContent = "Записаться";
+        book.href = "contacts.html#booking";
+        book.dataset.book = "";
+        book.dataset.wish = `Хочу записаться: ${item.name}.`;
+        row.append(name, price, book);
+        list.append(row);
+      });
+      details.append(list);
+
+      const more = document.createElement("p");
+      more.className = "service-catalog-more";
+      const link = document.createElement("a");
+      link.href = servicePageForGroup(group.id);
+      link.textContent = `Подробнее: ${group.title}`;
+      more.append(link);
+      details.append(more);
+
+      groupsRoot.append(details);
+    });
+  }
+
+  paintFilters();
+  paintGroups();
+}
+
 function renderPrices(content) {
   const root = document.querySelector("#price-list");
   if (!root) return;
@@ -641,9 +760,10 @@ async function boot() {
   applyTexts(content);
   applySalon(content);
   mountTelegram(content);
-  mountBooking(content);
   mountRequest(content);
+  renderHomeServices(content);
   renderPrices(content);
+  mountBooking(content);
   renderMonth(content);
   renderSigns();
   renderPhotos(content);

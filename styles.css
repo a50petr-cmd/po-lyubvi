@@ -134,6 +134,16 @@ h3,
   display: block;
 }
 
+.brand-logo {
+  display: block;
+  width: auto;
+  height: 40px;
+  max-width: min(168px, 46vw);
+  flex: none;
+  object-fit: contain;
+  object-position: left center;
+}
+
 .brand-word {
   transform: translateY(0.05em);
 }
@@ -734,6 +744,140 @@ button.button {
   margin-top: 4px;
 }
 
+.service-catalog-head {
+  margin-bottom: 24px;
+}
+
+.service-catalog-title {
+  margin: 0 0 12px;
+  font-family: var(--serif);
+  font-size: clamp(2rem, 3.4vw, 3rem);
+  font-weight: 400;
+  line-height: 1.08;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.service-catalog-lead,
+.service-catalog-tier {
+  margin: 0;
+  max-width: none;
+}
+
+.service-catalog-tier {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.service-catalog-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.service-filter {
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font: 500 0.95rem/1 var(--sans);
+  cursor: pointer;
+}
+
+.service-filter[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--sheet);
+}
+
+.service-catalog-group {
+  margin: 0 0 14px;
+}
+
+.service-catalog-group summary.service-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 22px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: var(--sheet);
+  color: var(--ink);
+  font: 500 1rem/1 var(--sans);
+  cursor: pointer;
+  list-style: none;
+}
+
+.service-catalog-group summary.service-pill::-webkit-details-marker {
+  display: none;
+}
+
+.service-catalog-group[open] > summary.service-pill {
+  background: var(--ink);
+  color: var(--sheet);
+}
+
+.service-catalog-note {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  max-width: none;
+}
+
+.service-price-rows {
+  margin-top: 8px;
+}
+
+.service-price-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 12px 20px;
+  align-items: center;
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+}
+
+.service-price-row:first-child {
+  border-top: 0;
+  padding-top: 14px;
+}
+
+.service-price-name {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.25rem, 2vw, 1.55rem);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.service-price-value {
+  margin: 0;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.service-price-book {
+  min-height: 40px;
+  padding: 0 14px;
+  white-space: nowrap;
+}
+
+.service-catalog-more {
+  margin: 12px 0 0;
+}
+
+.service-catalog-more a {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+}
+
 .service-main,
 .service-rest,
 .facts {
@@ -1240,6 +1384,20 @@ address p + p {
   .brand-mark {
     width: 32px;
     height: 32px;
+  }
+
+  .brand-logo {
+    height: 34px;
+    max-width: min(150px, 52vw);
+  }
+
+  .service-price-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .service-price-book {
+    justify-self: start;
   }
 
   .nav {

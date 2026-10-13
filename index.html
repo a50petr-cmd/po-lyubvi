@@ -18,8 +18,7 @@
     <div class="wrap">
       <header class="header">
         <a class="brand" href="index.html">
-          <img class="brand-mark" src="favicon.svg" alt="" width="40" height="40" />
-          <span class="brand-word">По любви</span>
+          <img class="brand-logo" src="logo-2.jpg" alt="По любви, салон красоты" width="168" height="48" />
         </a>
         <nav class="nav" aria-label="Разделы">
           <a href="manikyur.html">Маникюр</a>
@@ -102,32 +101,15 @@
             </a>
           </div>
         </section>
-        <section class="services" id="services" aria-labelledby="services-title">
-          <h2 id="services-title" class="section-title">Услуги</h2>
-          <div class="service-main">
-            <a href="manikyur.html">
-              <h3>Маникюр</h3>
-              <p data-home-lead="manikyur">Форма, покрытие и уход по одному стандарту. Техника одна у всех мастеров, цена зависит от категории.</p>
-            </a>
-            <a href="pedikyur.html">
-              <h3>Смарт-педикюр</h3>
-              <p data-home-lead="pedikyur">Стопы остаются гладкими надолго. Домашний уход продлевает эффект. Технику ставит и проверяет технолог салона.</p>
-            </a>
+        <section class="services service-catalog" id="services" aria-labelledby="services-title">
+          <div class="service-catalog-head">
+            <h2 id="services-title" class="service-catalog-title">Каждая деталь имеет значение</h2>
+            <p class="service-catalog-lead">Полный список услуг и актуальные цены. Нажмите категорию, чтобы раскрыть прайс.</p>
+            <p class="service-catalog-tier" id="price-note"></p>
           </div>
-          <div class="service-rest">
-            <a href="vzglyad.html">
-              <h3>Оформление взгляда</h3>
-              <p data-home-lead="vzglyad">Брови и ламинирование ресниц. Наращивание ресниц скоро появится в записи.</p>
-            </a>
-            <a href="estetika.html">
-              <h3>Эстетика</h3>
-              <p data-home-lead="estetika">Чистка, уход под вашу кожу, массаж лица, пилинги, аппаратный массаж лица и тела. Инъекций нет.</p>
-            </a>
-            <a href="massazh.html">
-              <h3>Массаж</h3>
-              <p data-home-lead="massazh">Мастер с опытом больше десяти лет: от антицеллюлитного до расслабляющего.</p>
-            </a>
-          </div>
+          <div class="service-catalog-filters" role="group" aria-label="Категории услуг"></div>
+          <div class="service-catalog-groups"></div>
+          <p class="price-source" id="price-source" hidden></p>
           <p class="standards" id="standards">Мастеров учит один технолог, инструмент стерилизуем перед каждым клиентом. Косметика с эко- и органик-сертификатами: 95–99% натурального состава. Администратор напомнит о визите и потом спросит, как всё прошло.</p>
           <nav class="more-links" aria-label="Ещё разделы">
             <a href="consult.html">Консультация косметолога</a>
