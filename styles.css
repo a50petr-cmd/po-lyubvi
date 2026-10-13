@@ -6,6 +6,7 @@
   --muted: #5c5853;
   --line: #cfc8bc;
   --serif: "Oranienbaum", "Times New Roman", serif;
+  --brand: "Bodoni Moda", "Oranienbaum", "Times New Roman", serif;
   --sans: "Manrope", "Segoe UI", sans-serif;
   --wrap: 1120px;
 }
@@ -118,11 +119,6 @@ h3,
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  font-family: var(--serif);
-  font-size: 1.5rem;
-  line-height: 1;
-  letter-spacing: -0.03em;
   color: var(--ink);
   text-decoration: none;
 }
@@ -134,14 +130,47 @@ h3,
   display: block;
 }
 
-.brand-logo {
+.brand-lockup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  line-height: 1;
+}
+
+.brand-title {
+  font-family: var(--brand);
+  font-size: clamp(1.28rem, 2.2vw, 1.62rem);
+  font-weight: 400;
+  font-variation-settings: "opsz" 32;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.brand-o {
+  display: inline-block;
+  width: 0.52em;
+  height: 0.86em;
+  margin: 0 0.02em;
+  vertical-align: -0.06em;
+}
+
+.brand-o-svg {
   display: block;
-  width: auto;
-  height: 40px;
-  max-width: min(168px, 46vw);
-  flex: none;
-  object-fit: contain;
-  object-position: left center;
+  width: 100%;
+  height: 100%;
+}
+
+.brand-tag {
+  align-self: center;
+  font-family: var(--sans);
+  font-size: clamp(0.44rem, 1.1vw, 0.52rem);
+  font-weight: 500;
+  letter-spacing: 0.44em;
+  text-indent: 0.44em;
+  text-transform: uppercase;
+  color: var(--ink);
 }
 
 .brand-word {
@@ -1376,19 +1405,17 @@ address p + p {
     grid-row: 1;
   }
 
-  .brand {
-    gap: 8px;
-    font-size: 1.28rem;
-  }
-
   .brand-mark {
     width: 32px;
     height: 32px;
   }
 
-  .brand-logo {
-    height: 34px;
-    max-width: min(150px, 52vw);
+  .brand-title {
+    letter-spacing: 0.1em;
+  }
+
+  .brand-tag {
+    letter-spacing: 0.36em;
   }
 
   .service-price-row {
