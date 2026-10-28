@@ -1348,6 +1348,57 @@ address p + p {
   transform: translate(1px, 1px);
 }
 
+.dock {
+  display: none;
+}
+
+@media (max-width: 899px) {
+  body {
+    padding-bottom: calc(62px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .dock {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 6;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 6px;
+    padding: 8px max(10px, env(safe-area-inset-left, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(10px, env(safe-area-inset-right, 0px));
+    background: var(--sheet);
+    border-top: 1px solid var(--line);
+  }
+
+  .dock a {
+    min-height: 46px;
+    display: grid;
+    place-items: center;
+    padding: 0 8px;
+    border: 1px solid var(--ink);
+    background: var(--sheet);
+    color: var(--ink);
+    font: 600 0.9rem/1.1 var(--sans);
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .dock a:first-child {
+    background: var(--ink);
+    color: var(--sheet);
+    border-color: var(--ink);
+  }
+
+  .tg-float {
+    display: none;
+  }
+
+  .footer {
+    padding-bottom: 28px;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .wordmark span {
     animation: rise 0.8s ease both;

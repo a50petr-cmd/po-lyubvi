@@ -1,3 +1,59 @@
+const YM_ID = null; // TODO: номер счётчика Метрики
+
+function initMetrika() {
+  if (!YM_ID) return;
+  window.ym =
+    window.ym ||
+    function () {
+      (window.ym.a = window.ym.a || []).push(arguments);
+    };
+  window.ym.l = Date.now();
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = "https://mc.yandex.ru/metrika/tag.js";
+  document.head.append(script);
+  window.ym(YM_ID, "init", {
+    clickmap: true,
+    trackLinks: true,
+    accurateTrackBounce: true,
+    webvisor: true,
+  });
+}
+
+function goal(name) {
+  if (YM_ID && typeof window.ym === "function") {
+    window.ym(YM_ID, "reachGoal", name);
+    return;
+  }
+  console.debug(`goal: ${name}`);
+}
+
+function mountGoals() {
+  document.addEventListener("click", (event) => {
+    const book = event.target.closest("[data-book]");
+    if (book) goal("booking_open");
+
+    const link = event.target.closest("a[href]");
+    if (!link) return;
+    const href = link.getAttribute("href") || "";
+    if (href.startsWith("tel:")) goal("call");
+    if (href.includes("wa.me")) goal("whatsapp");
+    if (href.includes("t.me")) goal("telegram");
+    if (link.matches("[data-route]") || link.closest("[data-route]")) goal("route");
+  });
+
+  document.addEventListener("toggle", (event) => {
+    const details = event.target;
+    if (!(details instanceof HTMLDetailsElement) || !details.open) return;
+    if (details.closest(".service-catalog") || details.closest("#price-list") || details.classList.contains("service-catalog-group")) {
+      goal("price_open");
+    }
+  }, true);
+}
+
+initMetrika();
+mountGoals();
+
 const zodiac = [
   { sign: "Овен", name: "Тёплый коралл", hex: "#C47A6A", line: "Заметный, но не кричащий." },
   { sign: "Телец", name: "Шампань", hex: "#C6B59A", line: "Тёплый свет, близкий к коже." },
@@ -616,11 +672,12 @@ function fallbackBooking(content, payload, status) {
     ].join("\n");
     window.location.href = `mailto:${salon.email}?subject=${encodeURIComponent("Заявка с сайта «По любви»")}&body=${encodeURIComponent(letter)}`;
     status.textContent = "Сервер заявок не ответил. Откроется письмо на почту салона. Отправьте его, чтобы заявка дошла.";
-    return;
+    return true;
   }
   status.textContent = salon.phone
     ? `Сейчас заявка с сайта не сохранилась. Позвоните ${salon.phone} или напишите в WhatsApp.`
     : "Сейчас заявка с сайта не сохранилась. Запишитесь по телефону салона.";
+  return false;
 }
 
 function mountRequest(content) {
@@ -729,7 +786,7 @@ function mountRequest(content) {
         body: JSON.stringify(payload),
       });
       if (response.status === 404) {
-        fallbackBooking(content, payload, status);
+        if (fallbackBooking(content, payload, status)) goal("form_sent");
         return;
       }
       const data = await response.json().catch(() => ({}));
@@ -742,8 +799,9 @@ function mountRequest(content) {
       status.textContent = content.salon?.phone
         ? `Заявка у администратора. Если удобнее, позвоните ${content.salon.phone}.`
         : "Заявка у администратора.";
+      goal("form_sent");
     } catch {
-      fallbackBooking(content, payload, status);
+      if (fallbackBooking(content, payload, status)) goal("form_sent");
     }
   });
 }

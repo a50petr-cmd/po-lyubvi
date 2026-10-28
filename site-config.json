@@ -1,0 +1,4 @@
+{
+  "baseUrl": "https://a50petr-cmd.github.io/po-lyubvi",
+  "comment": "Единственное место с базовым URL. После покупки домена замените baseUrl и обновите robots.txt, sitemap.xml, canonical и og:image во всех HTML."
+}

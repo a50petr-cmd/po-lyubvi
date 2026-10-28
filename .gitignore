@@ -23,3 +23,6 @@ desktop.ini
 
 # Сырьё клиента и рабочие файлы — не в git
 source/
+
+# Локальные настройки Claude Code
+.claude/settings.local.json

@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>По любви: первый экран</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Forum&family=Manrope:wght@400;500;600&family=Tenor+Sans&display=swap">
+<style>
+/* Сравнительная страница: оболочка следует теме зрителя, каждый вариант — свой фиксированный образ салона.
+   Цвета вариантов сняты с интерьера: серый камень стен, светлый дуб стойки, графит мебели, мох — цвет месяца. */
+:root{
+  --shell-bg:#EEECE8; --shell-fg:#2A2826; --shell-muted:#6F6A63; --shell-line:#D3CFC8; --shell-chip:#FFFFFF;
+  --body:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--shell-bg:#1E1D1B;--shell-fg:#ECE8E2;--shell-muted:#A39D94;--shell-line:#3A3835;--shell-chip:#2A2826;color-scheme:dark}}
+:root[data-theme="dark"]{--shell-bg:#1E1D1B;--shell-fg:#ECE8E2;--shell-muted:#A39D94;--shell-line:#3A3835;--shell-chip:#2A2826;color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--shell-bg);color:var(--shell-fg);font-family:var(--body);font-size:15px;line-height:1.55}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:2px solid #A9825A;outline-offset:3px}
+
+.shell{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 12px;max-width:1240px;margin:0 auto;display:grid;gap:14px}
+.shell h1{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:clamp(26px,4vw,34px);line-height:1.1;margin:0;text-wrap:balance}
+.shell p{margin:0;color:var(--shell-muted);max-width:62ch}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tabs a{text-decoration:none;padding:10px 16px;border:1px solid var(--shell-line);border-radius:999px;background:var(--shell-chip);font-weight:500;font-size:14px}
+.tabs a[aria-current="true"]{background:var(--shell-fg);color:var(--shell-bg);border-color:var(--shell-fg)}
+
+.variant{max-width:1240px;margin:0 auto 8px;border-radius:18px;overflow:clip}
+.note{display:block;max-width:1240px;margin:0 auto 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));color:var(--shell-muted);font-size:14px;line-height:1.6}
+.note b{color:var(--shell-fg);font-weight:600}
+@media (min-width:900px){.variant{margin-inline:max(16px,calc((100% - 1240px)/2))}}
+.in{padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+
+/* общие элементы макетов */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:16px}
+.logo{display:grid;gap:3px;justify-items:start}
+.logo img{width:132px;height:auto}
+.logo span{font-size:9px;letter-spacing:.32em;text-transform:uppercase;padding-left:2px}
+.burger{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:1px solid currentColor;background:none;color:inherit;cursor:pointer}
+.burger i,.burger i::before,.burger i::after{display:block;width:16px;height:1.5px;background:currentColor;position:relative;content:""}
+.burger i::before{position:absolute;top:-5px}.burger i::after{position:absolute;top:5px}
+.navlinks{display:none;gap:22px;font-size:14px}
+.navlinks a{text-decoration:none}
+@media (min-width:900px){.navlinks{display:flex}.burger{display:none}}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;text-decoration:none;font-weight:600;font-size:15px;border:1px solid transparent}
+.dock{position:sticky;bottom:0;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:6px;padding:8px max(10px,env(safe-area-inset-left,0px)) calc(8px + env(safe-area-inset-bottom,0px));z-index:2}
+.dock a{min-height:46px;display:grid;place-items:center;border-radius:12px;text-decoration:none;font-weight:600;font-size:14px}
+@media (min-width:900px){.dock{display:none}}
+
+/* лестница цен по категориям мастеров — деталь именно этого салона */
+.ladder{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;align-items:end;font-variant-numeric:tabular-nums}
+.ladder div{display:grid;gap:4px;font-size:12px}
+.ladder b{font-size:15px;font-weight:600;white-space:nowrap}
+.ladder s{display:block;text-decoration:none;border-radius:4px}
+.ladder div:nth-child(1) s{height:14px}.ladder div:nth-child(2) s{height:20px}.ladder div:nth-child(3) s{height:24px}.ladder div:nth-child(4) s{height:28px}
+
+/* ===== А. Журнал ===== */
+.va{--a-bg:#E4E0DA;--a-ink:#2A2826;--a-muted:#6B665F;--a-oak:#A9825A;--a-paper:#F3F1ED;background:var(--a-bg);color:var(--a-ink)}
+.va .logo img{filter:none}
+.va .hero{display:grid;gap:22px;padding-bottom:28px}
+.va .photo{position:relative;margin-inline:calc(-1 * max(18px,env(safe-area-inset-left,0px)))}
+.va .photo img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:35% 50%}
+.va .photo figcaption{position:absolute;left:18px;bottom:14px;font-size:12px;color:#F3F1ED;text-shadow:0 1px 8px rgba(0,0,0,.45)}
+.va h2{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:clamp(44px,8.4vw,92px);line-height:.95;letter-spacing:-.01em;margin:0;text-wrap:balance}
+.va .slogan{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(20px,2.4vw,26px);margin:0;color:var(--a-muted)}
+.va .rating{display:flex;gap:14px;align-items:center;padding-block:14px;border-block:1px solid color-mix(in srgb,var(--a-ink) 22%,transparent)}
+.va .rating strong{font-family:'Cormorant Garamond',Georgia,serif;font-size:44px;font-weight:600;line-height:1}
+.va .rating span{font-size:13px;line-height:1.35;color:var(--a-muted)}
+.va .rating span b{color:var(--a-ink);font-weight:600;display:block;font-size:14px}
+.va .ctas{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.va .btn-main{background:var(--a-ink);color:var(--a-paper)}
+.va .btn-ghost{border-color:var(--a-ink);color:var(--a-ink)}
+.va .offer{font-size:14px;color:var(--a-ink);display:flex;gap:10px;align-items:baseline}
+.va .offer::before{content:"";width:22px;height:1px;background:var(--a-oak);transform:translateY(-4px)}
+.va .card{background:var(--a-paper);border-radius:14px;padding:16px;display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:start;margin-bottom:28px}
+.va .card img{border-radius:10px;aspect-ratio:3/4;object-fit:cover}
+.va .card h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:28px;font-weight:600;margin:0;line-height:1}
+.va .card .ladder{grid-column:1/-1}
+.va .card p{margin:4px 0 0;font-size:13px;color:var(--a-muted)}
+.va .ladder s{background:var(--a-oak)}
+.va .ladder div{color:var(--a-muted)}.va .ladder b{color:var(--a-ink)}
+.va .dock{background:var(--a-paper);border-top:1px solid color-mix(in srgb,var(--a-ink) 14%,transparent)}
+.va .dock a:first-child{background:var(--a-ink);color:var(--a-paper)}
+.va .dock a{background:var(--a-bg);color:var(--a-ink)}
+@media (min-width:900px){
+  .va .hero{grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:48px;align-items:center;padding-block:12px 40px}
+  .va .photo{margin:0;order:2}
+  .va .photo img{border-radius:6px;aspect-ratio:4/4.6}
+  .va .copy{display:grid;gap:22px}
+  .va .card{max-width:560px}
+}
+.va .copy{display:grid;gap:18px}
+
+/* ===== Б. Галерея ===== */
+.vb{--b-bg:#FAF9F7;--b-ink:#1F1E1C;--b-muted:#77726B;--b-moss:#6B705C;--b-line:#E3E0DA;background:var(--b-bg);color:var(--b-ink)}
+.vb .head{display:grid;gap:12px;padding-block:6px 18px}
+.vb h2{font-family:'Tenor Sans','Manrope',sans-serif;font-weight:400;font-size:clamp(32px,5.6vw,64px);line-height:1.04;letter-spacing:.005em;margin:0;text-wrap:balance;max-width:16ch}
+.vb .slogan{margin:0;color:var(--b-muted);font-size:16px}
+.vb .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.vb .chips button{flex:none;font:inherit;font-size:14px;padding:9px 15px;border-radius:999px;border:1px solid var(--b-line);background:#fff;color:var(--b-ink);cursor:pointer}
+.vb .chips button[aria-pressed="true"]{background:var(--b-moss);border-color:var(--b-moss);color:#fff}
+.vb .ribbon{display:grid;grid-auto-flow:column;grid-auto-columns:62%;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:calc(-1 * max(18px,env(safe-area-inset-left,0px)));padding-inline:max(18px,env(safe-area-inset-left,0px));padding-block:14px;scrollbar-width:none}
+.vb .ribbon figure{margin:0;scroll-snap-align:start;display:grid;gap:6px}
+.vb .ribbon img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:4px}
+.vb .ribbon figcaption{font-size:12px;color:var(--b-muted)}
+.vb .bar{display:grid;gap:14px;padding-block:6px 26px}
+.vb .rating{font-size:14px;color:var(--b-muted)}
+.vb .rating b{color:var(--b-ink);font-size:20px;font-family:'Tenor Sans',sans-serif;margin-right:6px}
+.vb .ctas{display:flex;flex-wrap:wrap;gap:10px}
+.vb .btn-main{background:var(--b-ink);color:#fff}
+.vb .btn-ghost{border-color:var(--b-line);color:var(--b-ink);background:#fff}
+.vb .offer{background:var(--b-moss);color:#fff;border-radius:10px;padding:12px 14px;font-size:14px}
+.vb .card{border-top:1px solid var(--b-line);padding-block:18px 26px;display:grid;gap:12px}
+.vb .card h3{font-family:'Tenor Sans',sans-serif;font-weight:400;font-size:24px;margin:0;display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.vb .card h3 small{font-family:var(--body);font-size:15px;font-weight:600}
+.vb .card p{margin:0;font-size:13px;color:var(--b-muted)}
+.vb .ladder s{background:var(--b-moss)}
+.vb .ladder div{color:var(--b-muted)}.vb .ladder b{color:var(--b-ink)}
+.vb .dock{background:var(--b-bg);border-top:1px solid var(--b-line)}
+.vb .dock a:first-child{background:var(--b-moss);color:#fff}
+.vb .dock a{background:#fff;color:var(--b-ink);border:1px solid var(--b-line)}
+@media (min-width:900px){
+  .vb .ribbon{grid-auto-flow:row;grid-template-columns:repeat(8,1fr);grid-auto-columns:auto;margin:0;padding-inline:0;overflow:visible}
+  .vb .ribbon figure:nth-child(even){transform:translateY(28px)}
+  .vb .bar{grid-template-columns:auto auto 1fr;align-items:center;gap:24px;padding-top:40px}
+  .vb .offer{justify-self:end}
+  .vb .card{grid-template-columns:1fr 1.2fr;align-items:end;max-width:760px}
+}
+
+/* ===== В. Салон рядом ===== */
+.vc{--c-bg:#252422;--c-ink:#EAE5DE;--c-muted:#A8A198;--c-oak:#C49B6C;--c-panel:#302E2B;background:var(--c-bg);color:var(--c-ink)}
+.vc .logo img{filter:invert(1) brightness(.92)}
+.vc .hero{display:grid;gap:20px;padding-bottom:26px}
+.vc .pics{display:grid;grid-template-columns:3fr 2fr;gap:8px}
+.vc .pics img{width:100%;height:100%;object-fit:cover;border-radius:8px;aspect-ratio:3/4}
+.vc .pics figure{margin:0;display:grid;gap:6px;min-width:0}
+.va .hero>*,.vc .hero>*,.vb .bar>*{min-width:0}
+.vc .pics figcaption{font-size:12px;color:var(--c-muted)}
+.vc .pics figure:last-child{align-self:end}
+.vc .pics figure:last-child img{aspect-ratio:3/4.4}
+.vc h2{font-family:'Forum',Georgia,serif;font-weight:400;font-size:clamp(38px,6.6vw,76px);line-height:1;margin:0;text-wrap:balance}
+.vc .where{display:grid;gap:2px;font-size:15px}
+.vc .where b{font-weight:600;font-size:17px}
+.vc .where span{color:var(--c-muted)}
+.vc .ctas{display:flex;flex-wrap:wrap;gap:10px}
+.vc .btn-main{background:var(--c-oak);color:#1E1C1A}
+.vc .btn-ghost{border-color:color-mix(in srgb,var(--c-ink) 40%,transparent);color:var(--c-ink)}
+.vc .facts{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.vc .facts li{display:grid;grid-template-columns:64px 1fr;gap:12px;padding-block:12px;border-top:1px solid color-mix(in srgb,var(--c-ink) 14%,transparent);font-size:14px;color:var(--c-muted);align-items:baseline}
+.vc .facts li b{font-family:'Forum',serif;font-weight:400;font-size:26px;color:var(--c-oak);line-height:1}
+.vc .offer{font-size:14px;color:var(--c-ink)}
+.vc .offer b{color:var(--c-oak);font-weight:600}
+.vc .card{background:var(--c-panel);border-radius:14px;padding:16px;display:grid;gap:12px;margin-bottom:26px}
+.vc .card h3{font-family:'Forum',serif;font-weight:400;font-size:28px;margin:0;line-height:1}
+.vc .card p{margin:0;font-size:13px;color:var(--c-muted)}
+.vc .ladder s{background:var(--c-oak)}
+.vc .ladder div{color:var(--c-muted)}.vc .ladder b{color:var(--c-ink)}
+.vc .dock{background:var(--c-panel);border-top:1px solid #3B3935}
+.vc .dock a:first-child{background:var(--c-oak);color:#1E1C1A}
+.vc .dock a{background:var(--c-bg);color:var(--c-ink)}
+@media (min-width:900px){
+  .vc .hero{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:start;padding-block:12px 44px}
+  .vc .copy{display:grid;gap:22px;align-content:start;padding-top:20px}
+  .vc .card{max-width:520px}
+}
+.vc .copy{display:grid;gap:18px}
+
+</style>
+
+</head><body>
+<header class="shell">
+  <h1>По любви: первый экран</h1>
+  <p>Три варианта главной страницы. Тексты, цены, рейтинг и фото — настоящие, из салона. Удобнее всего смотреть с телефона: так сайт увидит большинство клиенток.</p>
+  <nav class="tabs" aria-label="Варианты">
+    <a href="#a" data-tab="a">А. Журнал</a>
+    <a href="#b" data-tab="b">Б. Галерея работ</a>
+    <a href="#c" data-tab="c">В. Салон рядом</a>
+  </nav>
+</header>
+
+<!-- ============ А ============ -->
+<section class="variant va" id="a" aria-label="Вариант А, Журнал">
+  <div class="in">
+    <div class="topbar">
+      <div class="logo"><img src="../logo-title.svg" alt="По любви"><span>Салон красоты</span></div>
+      <nav class="navlinks" aria-label="Меню"><a href="#a">Маникюр</a><a href="#a">Педикюр</a><a href="#a">Взгляд</a><a href="#a">Эстетика</a><a href="#a">Контакты</a></nav>
+      <button class="burger" type="button" aria-label="Меню"><i></i></button>
+    </div>
+    <div class="hero">
+      <figure class="photo">
+        <img src="../photos/001.webp" alt="Бордовое покрытие на коротких ногтях, рука с кольцом на фоне белой рубашки">
+        <figcaption>Работа мастера салона</figcaption>
+      </figure>
+      <div class="copy">
+        <h2>Маникюр и педикюр в Электростали</h2>
+        <p class="slogan">Маленькая роскошь быть собой</p>
+        <div class="rating"><strong>5,0</strong><span><b>Хорошее место 2026</b>Яндекс Карты, 91 оценка</span></div>
+        <div class="ctas">
+          <a class="btn btn-main" href="https://n1270388.yclients.ru" target="_blank" rel="noopener">Выбрать время</a>
+          <a class="btn btn-ghost" href="https://wa.me/79295551887" target="_blank" rel="noopener">Написать в WhatsApp</a>
+        </div>
+        <p class="offer">Первый визит — минус 15% на весь чек</p>
+      </div>
+    </div>
+    <article class="card">
+      <img src="../photos/033.webp" alt="Светлый маникюр">
+      <div>
+        <h3>Маникюр</h3>
+        <p>Без покрытия. Техника одна у всех мастеров, цена зависит от категории.</p>
+      </div>
+      <div class="ladder" aria-label="Цены по категориям мастеров">
+        <div><s></s><b>1 000 ₽</b>младший</div><div><s></s><b>1 300 ₽</b>мастер</div><div><s></s><b>1 400 ₽</b>ведущий</div><div><s></s><b>1 500 ₽</b>эксперт</div>
+      </div>
+    </article>
+  </div>
+  <nav class="dock" aria-label="Быстрые действия"><a href="https://n1270388.yclients.ru" target="_blank" rel="noopener">Записаться</a><a href="tel:+79295551887">Позвонить</a><a href="https://wa.me/79295551887" target="_blank" rel="noopener">WhatsApp</a></nav>
+</section>
+<div class="note" data-note="a"><b>Идея:</b> одна крупная работа и спокойный журнальный заголовок, как обложка. <b>Подойдёт, если</b> хочется дорого и сдержанно, ближе всего к нынешнему стилю.</div>
+
+<!-- ============ Б ============ -->
+<section class="variant vb" id="b" aria-label="Вариант Б, Галерея работ">
+  <div class="in">
+    <div class="topbar">
+      <div class="logo"><img src="../logo-title.svg" alt="По любви"><span>Салон красоты</span></div>
+      <nav class="navlinks" aria-label="Меню"><a href="#b">Маникюр</a><a href="#b">Педикюр</a><a href="#b">Взгляд</a><a href="#b">Эстетика</a><a href="#b">Контакты</a></nav>
+      <button class="burger" type="button" aria-label="Меню"><i></i></button>
+    </div>
+    <div class="head">
+      <h2>Маникюр и педикюр в Электростали</h2>
+      <p class="slogan">Маленькая роскошь быть собой. Смотрите работы и выбирайте своё.</p>
+      <div class="chips" role="group" aria-label="Фильтр работ">
+        <button type="button" aria-pressed="true" data-f="all">Все</button>
+        <button type="button" aria-pressed="false" data-f="nude">Нюд</button>
+        <button type="button" aria-pressed="false" data-f="bright">Яркие</button>
+        <button type="button" aria-pressed="false" data-f="art">Дизайн</button>
+        <button type="button" aria-pressed="false" data-f="pedi">Педикюр</button>
+        <button type="button" aria-pressed="false" data-f="eyes">Взгляд</button>
+      </div>
+    </div>
+    <div class="ribbon" id="ribbon">
+      <figure data-k="bright"><img src="../photos/007.webp" alt="Ярко-розовый гель-лак"><figcaption>Гель-лак, фуксия</figcaption></figure>
+      <figure data-k="art"><img src="../photos/016.webp" alt="Зелёный матовый маникюр с дизайном"><figcaption>Мох и графика</figcaption></figure>
+      <figure data-k="nude"><img src="../photos/005.webp" alt="Светло-розовый маникюр с мраморным дизайном"><figcaption>Нюд с мрамором</figcaption></figure>
+      <figure data-k="pedi"><img src="../photos/064.webp" alt="Педикюр со светлым покрытием"><figcaption>Смарт-педикюр</figcaption></figure>
+      <figure data-k="nude"><img src="../photos/088.webp" alt="Розовый перламутровый маникюр"><figcaption>Перламутр</figcaption></figure>
+      <figure data-k="eyes"><img src="../photos/095.webp" alt="Ламинирование ресниц"><figcaption>Ламинирование ресниц</figcaption></figure>
+      <figure data-k="bright"><img src="../photos/068.webp" alt="Голубой маникюр"><figcaption>Голубой, квадрат</figcaption></figure>
+      <figure data-k="art"><img src="../photos/021.webp" alt="Тёмный маникюр с дизайном"><figcaption>Графит с акцентом</figcaption></figure>
+    </div>
+    <div class="bar">
+      <p class="rating"><b>5,0</b>Хорошее место 2026 на Яндекс Картах</p>
+      <div class="ctas">
+        <a class="btn btn-main" href="https://n1270388.yclients.ru" target="_blank" rel="noopener">Выбрать время</a>
+        <a class="btn btn-ghost" href="https://wa.me/79295551887" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+      <p class="offer">Первый визит — минус 15% на весь чек</p>
+    </div>
+    <article class="card">
+      <div><h3>Маникюр <small>от 1 000 ₽</small></h3><p>Без покрытия. Техника одна у всех мастеров, цена зависит от категории.</p></div>
+      <div class="ladder" aria-label="Цены по категориям мастеров">
+        <div><s></s><b>1 000 ₽</b>младший</div><div><s></s><b>1 300 ₽</b>мастер</div><div><s></s><b>1 400 ₽</b>ведущий</div><div><s></s><b>1 500 ₽</b>эксперт</div>
+      </div>
+    </article>
+  </div>
+  <nav class="dock" aria-label="Быстрые действия"><a href="https://n1270388.yclients.ru" target="_blank" rel="noopener">Записаться</a><a href="tel:+79295551887">Позвонить</a><a href="https://wa.me/79295551887" target="_blank" rel="noopener">WhatsApp</a></nav>
+</section>
+<div class="note" data-note="b"><b>Идея:</b> работы мастеров вместо обложки, лента листается пальцем, сверху фильтр. Акцент — цвет месяца. <b>Подойдёт, если</b> главный аргумент салона — сами ногти, а клиентки выбирают по картинке.</div>
+
+<!-- ============ В ============ -->
+<section class="variant vc" id="c" aria-label="Вариант В, Салон рядом">
+  <div class="in">
+    <div class="topbar">
+      <div class="logo"><img src="../logo-title.svg" alt="По любви"><span>Салон красоты</span></div>
+      <nav class="navlinks" aria-label="Меню"><a href="#c">Маникюр</a><a href="#c">Педикюр</a><a href="#c">Взгляд</a><a href="#c">Эстетика</a><a href="#c">Контакты</a></nav>
+      <button class="burger" type="button" aria-label="Меню"><i></i></button>
+    </div>
+    <div class="hero">
+      <div class="pics">
+        <figure><img src="../photos/salon/salon-04-hall.webp" alt="Холл салона: стойка администратора из светлого дерева"><figcaption>Холл и стойка администратора</figcaption></figure>
+        <figure><img src="../photos/salon/salon-09-entrance-outside.webp" alt="Вход в салон с вывеской По любви"><figcaption>Вход с проспекта Ленина</figcaption></figure>
+      </div>
+      <div class="copy">
+        <h2>Маникюр и педикюр в Электростали</h2>
+        <div class="where"><b>Проспект Ленина, 08А</b><span>285 м от остановки «Эльград». Каждый день с 9:00 до 21:00</span></div>
+        <div class="ctas">
+          <a class="btn btn-main" href="https://n1270388.yclients.ru" target="_blank" rel="noopener">Выбрать время</a>
+          <a class="btn btn-ghost" href="https://yandex.ru/maps/org/po_lyubvi/241721947105/" target="_blank" rel="noopener">Как добраться</a>
+        </div>
+        <ul class="facts">
+          <li><b>5,0</b>Хорошее место 2026 на Яндекс Картах, 91 оценка</li>
+          <li><b>1</b>технолог учит всех мастеров, поэтому техника у всех одна</li>
+          <li><b>95%</b>натурального состава в косметике, инструмент стерилизуем перед каждым клиентом</li>
+        </ul>
+        <p class="offer"><b>Первый визит</b> — минус 15% на весь чек</p>
+      </div>
+    </div>
+    <article class="card">
+      <h3>Маникюр</h3>
+      <p>Без покрытия. Цена зависит от категории мастера, качество одно.</p>
+      <div class="ladder" aria-label="Цены по категориям мастеров">
+        <div><s></s><b>1 000 ₽</b>младший</div><div><s></s><b>1 300 ₽</b>мастер</div><div><s></s><b>1 400 ₽</b>ведущий</div><div><s></s><b>1 500 ₽</b>эксперт</div>
+      </div>
+    </article>
+  </div>
+  <nav class="dock" aria-label="Быстрые действия"><a href="https://n1270388.yclients.ru" target="_blank" rel="noopener">Записаться</a><a href="tel:+79295551887">Позвонить</a><a href="https://wa.me/79295551887" target="_blank" rel="noopener">WhatsApp</a></nav>
+</section>
+<div class="note" data-note="c"><b>Идея:</b> показываем сам салон и дорогу к нему, тёмная тёплая гамма как вечером в зале. <b>Подойдёт, если</b> новые клиентки сомневаются «куда я иду» и важны чистота и доверие.</div>
+
+<script>
+(function(){
+  var ids=['a','b','c'];
+  function show(){
+    var h=(location.hash||'#a').slice(1); if(ids.indexOf(h)<0) h='a';
+    ids.forEach(function(id){
+      var on=id===h;
+      document.getElementById(id).hidden=!on;
+      document.querySelector('[data-note="'+id+'"]').hidden=!on;
+      document.querySelector('[data-tab="'+id+'"]').setAttribute('aria-current',on?'true':'false');
+    });
+  }
+  window.addEventListener('hashchange',function(){show();window.scrollTo(0,0)});
+  show();
+  var chips=document.querySelectorAll('.vb .chips button');
+  chips.forEach(function(b){b.addEventListener('click',function(){
+    chips.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+    var f=b.dataset.f;
+    document.querySelectorAll('#ribbon figure').forEach(function(fig){fig.hidden=!(f==='all'||fig.dataset.k===f)});
+  })});
+})();
+</script>
+
+</body></html>
