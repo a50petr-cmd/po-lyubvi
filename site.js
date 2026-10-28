@@ -1,58 +1,46 @@
-const YM_ID = null; // TODO: номер счётчика Метрики
+// ─── Яндекс Метрика ───────────────────────────────────────────────────────────
+const YM_ID = null; // TODO: заменить на номер счётчика, например: const YM_ID = 12345678;
 
 function initMetrika() {
   if (!YM_ID) return;
-  window.ym =
-    window.ym ||
-    function () {
-      (window.ym.a = window.ym.a || []).push(arguments);
-    };
-  window.ym.l = Date.now();
-  const script = document.createElement("script");
-  script.async = true;
-  script.src = "https://mc.yandex.ru/metrika/tag.js";
-  document.head.append(script);
-  window.ym(YM_ID, "init", {
-    clickmap: true,
-    trackLinks: true,
-    accurateTrackBounce: true,
-    webvisor: true,
-  });
+  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+  m[i].l=1*new Date();
+  for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+  k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+  (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+  ym(YM_ID,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
 }
 
 function goal(name) {
-  if (YM_ID && typeof window.ym === "function") {
-    window.ym(YM_ID, "reachGoal", name);
-    return;
+  if (YM_ID && typeof ym === "function") {
+    ym(YM_ID, "reachGoal", name);
+  } else {
+    console.debug("goal:", name);
   }
-  console.debug(`goal: ${name}`);
 }
 
 function mountGoals() {
-  document.addEventListener("click", (event) => {
-    const book = event.target.closest("[data-book]");
-    if (book) goal("booking_open");
-
-    const link = event.target.closest("a[href]");
-    if (!link) return;
-    const href = link.getAttribute("href") || "";
-    if (href.startsWith("tel:")) goal("call");
-    if (href.includes("wa.me")) goal("whatsapp");
-    if (href.includes("t.me")) goal("telegram");
-    if (link.matches("[data-route]") || link.closest("[data-route]")) goal("route");
+  document.addEventListener("click", function(e) {
+    const t = e.target.closest("a, button, [data-book], [data-route]");
+    if (!t) return;
+    if (t.closest("[data-book]") || t.matches("[data-book]")) goal("booking_open");
+    else if (t.matches("a[href^='tel:']")) goal("call");
+    else if (t.matches("a[href*='wa.me']")) goal("whatsapp");
+    else if (t.matches("a[href*='t.me']")) goal("telegram");
+    else if (t.closest("[data-route]") || t.matches("[data-route]")) goal("route");
   });
-
-  document.addEventListener("toggle", (event) => {
-    const details = event.target;
-    if (!(details instanceof HTMLDetailsElement) || !details.open) return;
-    if (details.closest(".service-catalog") || details.closest("#price-list") || details.classList.contains("service-catalog-group")) {
-      goal("price_open");
-    }
+  document.addEventListener("toggle", function(e) {
+    const details = e.target;
+    if (details.tagName !== "DETAILS") return;
+    if (!details.open) return;
+    const inCatalog = details.closest(".service-catalog, #price-list");
+    if (inCatalog) goal("price_open");
   }, true);
 }
 
 initMetrika();
 mountGoals();
+// ─── конец блока Метрики ──────────────────────────────────────────────────────
 
 const zodiac = [
   { sign: "Овен", name: "Тёплый коралл", hex: "#C47A6A", line: "Заметный, но не кричащий." },
@@ -672,12 +660,11 @@ function fallbackBooking(content, payload, status) {
     ].join("\n");
     window.location.href = `mailto:${salon.email}?subject=${encodeURIComponent("Заявка с сайта «По любви»")}&body=${encodeURIComponent(letter)}`;
     status.textContent = "Сервер заявок не ответил. Откроется письмо на почту салона. Отправьте его, чтобы заявка дошла.";
-    return true;
+    return;
   }
   status.textContent = salon.phone
     ? `Сейчас заявка с сайта не сохранилась. Позвоните ${salon.phone} или напишите в WhatsApp.`
     : "Сейчас заявка с сайта не сохранилась. Запишитесь по телефону салона.";
-  return false;
 }
 
 function mountRequest(content) {
@@ -786,7 +773,7 @@ function mountRequest(content) {
         body: JSON.stringify(payload),
       });
       if (response.status === 404) {
-        if (fallbackBooking(content, payload, status)) goal("form_sent");
+        fallbackBooking(content, payload, status);
         return;
       }
       const data = await response.json().catch(() => ({}));
@@ -794,14 +781,14 @@ function mountRequest(content) {
         status.textContent = data.error || "Заявку не удалось сохранить.";
         return;
       }
+      goal("form_sent");
       form.reset();
       phone.value = "";
       status.textContent = content.salon?.phone
         ? `Заявка у администратора. Если удобнее, позвоните ${content.salon.phone}.`
         : "Заявка у администратора.";
-      goal("form_sent");
     } catch {
-      if (fallbackBooking(content, payload, status)) goal("form_sent");
+      fallbackBooking(content, payload, status);
     }
   });
 }
