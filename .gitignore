@@ -20,3 +20,6 @@ site.next.js
 Thumbs.db
 desktop.ini
 *.log
+
+# Сырьё клиента и рабочие файлы — не в git
+source/
